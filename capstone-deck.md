@@ -1,4 +1,4 @@
-# Slip-Cast Ceramic Ocarina (OCA-001) — Build Packet
+# Slip-Cast Ceramic Ocarina (OCA-001) — v3 Smoke Test
 - Musical instrument documentation capstone
 - Build packet: ocarina
 - Generated: 2026-05-02
@@ -6,9 +6,20 @@
 ---
 
 # Project Intent
-- See design.md for intent.
+- Build a slip-cast ceramic Alto C 12-hole ocarina using a 3D-printed master and plaster mold workflow. The current table is focused on the standard "sweet potato" vessel-flute form, but the same model can be used as the baseline for sculptural vessel flutes.
 
 _Speaker notes:_ Read design.md before committing to dimensions or sourcing decisions.
+
+---
+
+# Physics Model
+- Ocarinas behave primarily as Helmholtz resonators:
+
+```
+f = c/(2*pi) * sqrt(A_open/(V_chamber * L_eff))
+```
+
+_Speaker notes:_ Governing equation extracted verbatim from design.md. Apply empirical corrections (NAF K2, scale offsets) only where the model permits — see references/acoustic-models.md.
 
 ---
 
@@ -60,12 +71,20 @@ _Speaker notes:_ Read design.md before committing to dimensions or sourcing deci
 - cnc/ holds CAM, toolpaths, setup sheets, dry-run notes.
 - drawings/ holds PDFs, SVGs, DXFs, drawing exports.
 
+![drawing](drawings/ocarina-body-section.svg)
+![drawing](drawings/ocarina-hole-layout.svg)
+![drawing](drawings/ocarina-mold-schematic.svg)
+
 ---
 
 # Images And Screenshots
 - images/exploded-view-concept.png
 - images/hero-concept.png
 - images/mold-cross-section-concept.png
+
+![image](images/exploded-view-concept.png)
+![image](images/hero-concept.png)
+![image](images/mold-cross-section-concept.png)
 
 ---
 
