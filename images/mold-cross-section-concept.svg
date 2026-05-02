@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="1000" height="600" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="plaster" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5F0E0"/>
+      <stop offset="100%" stop-color="#C4B894"/>
+    </linearGradient>
+    <linearGradient id="slip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A8856A"/>
+      <stop offset="100%" stop-color="#5C3E1E"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1000" height="600" fill="#FBF6E8"/>
+
+  <!-- Plaster top half -->
+  <path d="M 100 80 L 900 80 L 900 290 L 740 290 C 700 220, 300 220, 260 290 L 100 290 Z" fill="url(#plaster)" stroke="#7E6B3A" stroke-width="2"/>
+
+  <!-- Plaster bottom half -->
+  <path d="M 100 320 L 260 320 C 300 390, 700 390, 740 320 L 900 320 L 900 530 L 100 530 Z" fill="url(#plaster)" stroke="#7E6B3A" stroke-width="2"/>
+
+  <!-- Slip-filled cavity (showing the lentil ocarina shape inside) -->
+  <path d="M 260 290 C 300 220, 700 220, 740 290 L 760 305 L 740 320 C 700 390, 300 390, 260 320 L 240 305 Z" fill="url(#slip)" stroke="#3D2810" stroke-width="2"/>
+
+  <!-- Hollow inner cavity (drained) -->
+  <path d="M 290 305 C 320 250, 680 250, 710 305 C 680 360, 320 360, 290 305 Z" fill="#FBF6E8" stroke="#3D2810" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="500" y="310" font-size="13" text-anchor="middle" fill="#3D2810" font-weight="bold">drained chamber</text>
+
+  <!-- Wall callout -->
+  <line x1="270" y1="300" x2="295" y2="300" stroke="#C0392B" stroke-width="1.5"/>
+  <text x="220" y="295" font-size="12" fill="#C0392B" font-weight="bold">cast wall</text>
+  <text x="220" y="310" font-size="11" fill="#C0392B">~0.157 in (4 mm)</text>
+
+  <!-- Pour spout -->
+  <polygon points="730,80 770,80 760,225 740,225" fill="url(#slip)" stroke="#3D2810"/>
+  <text x="760" y="70" font-size="11" fill="#3D2810" font-weight="bold">slip pour</text>
+
+  <!-- Split line -->
+  <line x1="100" y1="305" x2="900" y2="305" stroke="#C0392B" stroke-width="1.5" stroke-dasharray="8 4"/>
+  <text x="120" y="300" font-size="11" fill="#C0392B" font-weight="bold">SPLIT LINE</text>
+
+  <!-- Registration keys -->
+  <circle cx="180" cy="305" r="9" fill="#1F3A68"/>
+  <circle cx="820" cy="305" r="9" fill="#1F3A68"/>
+  <text x="180" y="335" font-size="10" text-anchor="middle" fill="#1F3A68">key</text>
+  <text x="820" y="335" font-size="10" text-anchor="middle" fill="#1F3A68">key</text>
+
+  <!-- Caption -->
+  <rect x="0" y="552" width="1000" height="48" fill="#3D2810" opacity="0.92"/>
+  <text x="20" y="575" fill="#FBF6E8" font-size="14" font-weight="bold">AI-GENERATED CONCEPT — Two-Piece Plaster Mold Cross-Section, Mid-Cast (slip drained)</text>
+  <text x="20" y="591" fill="#E0CFA0" font-size="11">Captures workflow concept only. Actual plaster thickness, cottle dimensions, and pour geometry come from drawings/ocarina-mold-schematic.svg.</text>
+</svg>
