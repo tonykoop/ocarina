@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Slip-Cast Ceramic Ocarina (OCA-001) — v3 Smoke Test</title><style>
+<!doctype html><html><head><meta charset="utf-8"><title>Slip-Cast Ceramic Ocarina (OCA-001) — v3.1 smoke test</title><style>
 body { font-family: Arial, sans-serif; color: #111; line-height: 1.35; max-width: 900px; margin: 32px auto; }
 h1 { font-size: 28px; border-bottom: 2px solid #222; padding-bottom: 6px; }
 h2 { font-size: 22px; margin-top: 28px; }
@@ -10,10 +10,10 @@ pre { white-space: pre-wrap; background: #f5f5f5; padding: 10px; border: 1px sol
 .page-break { page-break-before: always; break-before: page; }
 @media print { body { margin: 0.5in; max-width: none; } a { color: #111; } }
 </style></head><body>
-<h1>Slip-Cast Ceramic Ocarina (OCA-001) — v3 Smoke Test Print Packet</h1>
+<h1>Slip-Cast Ceramic Ocarina (OCA-001) — v3.1 smoke test Print Packet</h1>
 
 <p>Generated: 2026-05-02</p>
-<p>Packet folder: `/sessions/charming-bold-fermat/mnt/GitHub/ocarina`</p>
+<p>Packet folder: `C:\Users\Tony\Documents\GitHub\ocarina`</p>
 
 <h2>File Map</h2>
 
@@ -30,8 +30,6 @@ pre { white-space: pre-wrap; background: #f5f5f5; padding: 10px; border: 1px sol
 <tr><td>`visual-bom-brief.md`</td><td>Art direction for an image-forward visual BOM.</td></tr>
 <tr><td>`wolfram-starter.wl`</td><td>Wolfram starter for physics, optimization, visualization, and validation.</td></tr>
 <tr><td>`README.md`</td><td>Project artifact.</td></tr>
-<tr><td>`capstone-deck.md`</td><td>Project artifact.</td></tr>
-<tr><td>`print-packet.md`</td><td>Project artifact.</td></tr>
 </table>
 
 <div class="page-break"></div>
@@ -496,1268 +494,114 @@ areaTable // TableForm
 
 <p>&gt; *Engineering documentation for a 3D-printed-master, plaster-mold, cone-6-stoneware slip-cast ocarina family — from Helmholtz physics through the parametric design table to a manufacturable build packet.*</p>
 
-<p>![Hero — AI-generated concept render of a slip-cast Alto C 12-hole ocarina (placeholder until first prototype is photographed)](images/hero-concept.</p>
+<p>![Hero — AI-generated concept render of a slip-cast Alto C 12-hole ocarina (placeholder until first prototype is photographed)](images/hero-concept.png)</p>
+<p>*AI-generated concept render — replace with photo of first OCA-P1 prototype after firing. Manufacturing dimensions come from the parametric design table, not from this image.*</p>
 
-<div class="page-break"></div>
+<h2>What this is</h2>
 
-<h2>capstone-deck.md</h2>
+<p>Engineering documentation for a small family of slip-cast ceramic ocarinas, built around the Helmholtz vessel-resonator model and a 3D-printed-master / plaster-mold / Cone-6-stoneware production pipeline. The repository combines:</p>
 
-<p>Project artifact.</p>
+<p>1. **A parametric design table** ([`ocarina-design-table.xlsx`](ocarina-design-table.xlsx)) — chamber volume, voicing-window geometry, wall thickness, shrinkage, and a 12-hole fingering chart with formula-driven hole-area / cumulative-area / frequency columns. Master scale factor `1/(1 - measured_shrinkage)` is parameterized; for a 12% shrinkage assumption, the master scales at ~1.136×.</p>
+<p>2. **A full build packet** ([`design.md`](design.md), [`bom.csv`](bom.csv), [`sourcing.csv`](sourcing.csv), [`cut-list.csv`](cut-list.csv), [`validation.csv`](validation.csv), [`assembly-manual.md`](assembly-manual.md), [`supplier-rfq.md`](supplier-rfq.md), [`drawing-brief.md`](drawing-brief.md), [`visual-bom-brief.md`](visual-bom-brief.md), [`wolfram-starter.wl`](wolfram-starter.wl)) — the same scaffold used across the [`tonykoop`](https://github.com/tonykoop) musical-instrument catalogue.</p>
+<p>3. **A capstone slide deck and printable shop packet** ([`capstone-deck.pptx`](capstone-deck.pptx), [`print-packet.pdf`](print-packet.pdf)) — recruiter-facing artifacts that show the design is documented well enough that someone else could build it.</p>
 
-<h1>Slip-Cast Ceramic Ocarina (OCA-001) — v3 Smoke Test</h1>
-<ul>
-<li>Musical instrument documentation capstone</li>
-<li>Build packet: ocarina</li>
-<li>Generated: 2026-05-02</li>
-</ul>
+<p>Sister repos: [`gemshorn`](https://github.com/tonykoop/gemshorn) (where slip-cast horn-flute mold workflow was established and is the closest comparable build packet), [`transverse-flute`](https://github.com/tonykoop/transverse-flute) (slip-cast workflow at larger scale), [`flutes`](https://github.com/tonykoop/flutes) (the NAF / open-pipe family with empirical K2 bore corrections), and [`instrument-maker`](https://github.com/tonykoop/instrument-maker) (the agent skill that generated this packet).</p>
 
-<p>---</p>
+<h2>Background — what makes an ocarina different</h2>
 
-<h1>Project Intent</h1>
-<ul>
-<li>Build a slip-cast ceramic Alto C 12-hole ocarina using a 3D-printed master and plaster mold workflow. The current table is focused on the standard &quot;sweet potato&quot; vessel-flute form, but the same model can be used as the baseline for sculptural vessel flutes.</li>
-</ul>
-
-<p>_Speaker notes:_ Read design.md before committing to dimensions or sourcing decisions.</p>
-
-<p>---</p>
-
-<h1>Physics Model</h1>
-<ul>
-<li>Ocarinas behave primarily as Helmholtz resonators:</li>
-</ul>
+<p>The ocarina (Italian *little goose*) is a closed-cavity vessel flute. Unlike a transverse flute or a Native American style flute, **pitch is set by chamber volume and total open-hole area, not by tone-hole position along a bore**. The governing model is the Helmholtz resonator:</p>
 
 <pre><code>
-f = c/(2*pi) * sqrt(A_open/(V_chamber * L_eff))
+f = c/(2π) · √( A_open / (V_chamber · L_eff) )
 </code></pre>
 
-<p>_Speaker notes:_ Governing equation extracted verbatim from design.md. Apply empirical corrections (NAF K2, scale offsets) only where the model permits — see references/acoustic-models.md.</p>
+<p>where `A_open` is the cumulative open hole area, `V_chamber` is the closed cavity volume, and `L_eff = wall_thickness + 0.6·√(A_open/π)` is the effective neck length with a flanged-port end correction. The full physics treatment is in [`design.md`](design.md) (Governing Model section) and in [`wolfram-starter.wl`](wolfram-starter.wl).</p>
 
-<p>---</p>
+<p>The practical consequence is that ocarina hole positions are an **ergonomic** problem (where the fingers reach), not an acoustic one (where the standing wave wants the holes). This makes the ocarina an unusually clean parametric-design target — change the chamber volume, the whole register transposes; change the cumulative area, the fingering chart re-tunes — but it puts an unusually heavy burden on **fipple/voicing geometry**, which the Helmholtz model says nothing about and which has to be tuned empirically.</p>
 
-<h1>How To Use This Packet</h1>
-<ul>
-<li>Start with design.md for intent and assumptions.</li>
-<li>Use bom.csv, sourcing.csv, and cut-list.csv before buying or cutting.</li>
-<li>Use drawing-brief.md and CAD/CNC folders before machining.</li>
-<li>Print the packet for shopping, shop work, and validation.</li>
-</ul>
+<h2>Family targets</h2>
 
-<p>---</p>
-
-<h1>File Map</h1>
-<ul>
-<li>design.md: Project intent, catalog metadata, assumptions, and validation plan.</li>
-<li>bom.csv: Starter bill of materials with part categories, quantities, drawing refs, and notes.</li>
-<li>sourcing.csv: Supplier/search tracker with specs, price/date fields, lead time, substitutes, and risks.</li>
-<li>cut-list.csv: Rough/final stock sizes, material, grain/orientation, operations, yield, and offcuts.</li>
-<li>drawing-brief.md: Manufacturing drawing and technical product sketch brief.</li>
-<li>assembly-manual.md: Shop-facing sequence, tools, fixtures, safety, tuning, finishing, and maintenance notes.</li>
-<li>validation.csv: Target/measured values, tolerance, environment, result, and tuning/build action log.</li>
-<li>supplier-rfq.md: Supplier email/request-for-quote starter.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Build Workflow</h1>
-<ul>
-<li>Design and assumptions</li>
-<li>Source materials and hardware</li>
-<li>Prepare stock, fixtures, and CNC/laser/lathe setup</li>
-<li>Assemble, tune, finish, and validate</li>
-</ul>
-
-<p>---</p>
-
-<h1>Sourcing And BOM</h1>
-<ul>
-<li>BOM gives part categories and drawing references.</li>
-<li>Sourcing tracks search terms, supplier candidates, price/date, lead time, substitutions.</li>
-<li>Visual BOM brief turns the parts list into a presentation-ready image board.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Shop Packet</h1>
-<ul>
-<li>Cut list for lumber/sheet/blank planning.</li>
-<li>Assembly manual for away-from-keyboard work.</li>
-<li>Validation sheet for measured dimensions, tuning, pass/fail checks.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Drawings, CAD, CNC</h1>
-<ul>
-<li>drawing-brief.md defines required views, dimensions, datums, sketch intent.</li>
-<li>cad/ holds models and design tables.</li>
-<li>cnc/ holds CAM, toolpaths, setup sheets, dry-run notes.</li>
-<li>drawings/ holds PDFs, SVGs, DXFs, drawing exports.</li>
-</ul>
-
-<p>![drawing](drawings/ocarina-body-section.svg)</p>
-<p>![drawing](drawings/ocarina-hole-layout.svg)</p>
-<p>![drawing](drawings/ocarina-mold-schematic.svg)</p>
-
-<p>---</p>
-
-<h1>Images And Screenshots</h1>
-<ul>
-<li>images/exploded-view-concept.png</li>
-<li>images/hero-concept.png</li>
-<li>images/mold-cross-section-concept.png</li>
-</ul>
-
-<p>![image](images/exploded-view-concept.png)</p>
-<p>![image](images/hero-concept.png)</p>
-<p>![image](images/mold-cross-section-concept.png)</p>
-
-<p>---</p>
-
-<h1>Validation Plan</h1>
-<ul>
-<li>A4 = 440 Hz reference check.</li>
-<li>Tuning targets logged in validation.csv.</li>
-<li>Critical dimensions verified against design sheet and CAD.</li>
-<li>Photos and revision notes after each major step.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Open Risks / Decisions</h1>
-<ul>
-<li>TBDs in design sheet and BOM.</li>
-<li>Supplier price/availability not yet verified.</li>
-<li>Generated images marked as concept placeholders.</li>
-<li>Empirical corrections await measured prototype data.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Next Actions</h1>
-<ul>
-<li>Replace TBDs with measured/source-backed values.</li>
-<li>Verify live supplier price and availability before buying.</li>
-<li>Export final drawings and visual BOM images.</li>
-<li>Regenerate this deck and print packet after final edits.</li>
-</ul>
-
-<p>---</p>
-
-<div class="page-break"></div>
-
-<h2>print-packet.md</h2>
-
-<p>Project artifact.</p>
-
-<h1>Slip-Cast Ceramic Ocarina (OCA-001) — Build Packet Print Packet</h1>
-
-<p>Generated: 2026-05-02</p>
-<p>Packet folder: `/sessions/charming-bold-fermat/mnt/GitHub/ocarina`</p>
-
-<h2>File Map</h2>
-
-<table>
-<tr><th>File</th><th>Purpose</th></tr>
-<tr><td>`design.md`</td><td>Project intent, catalog metadata, assumptions, and validation plan.</td></tr>
-<tr><td>`bom.csv`</td><td>Starter bill of materials with part categories, quantities, drawing refs, and notes.</td></tr>
-<tr><td>`sourcing.csv`</td><td>Supplier/search tracker with specs, price/date fields, lead time, substitutes, and risks.</td></tr>
-<tr><td>`cut-list.csv`</td><td>Rough/final stock sizes, material, grain/orientation, operations, yield, and offcuts.</td></tr>
-<tr><td>`drawing-brief.md`</td><td>Manufacturing drawing and technical product sketch brief.</td></tr>
-<tr><td>`assembly-manual.md`</td><td>Shop-facing sequence, tools, fixtures, safety, tuning, finishing, and maintenance notes.</td></tr>
-<tr><td>`validation.csv`</td><td>Target/measured values, tolerance, environment, result, and tuning/build action log.</td></tr>
-<tr><td>`supplier-rfq.md`</td><td>Supplier email/request-for-quote starter.</td></tr>
-<tr><td>`visual-bom-brief.md`</td><td>Art direction for an image-forward visual BOM.</td></tr>
-<tr><td>`wolfram-starter.wl`</td><td>Wolfram starter for physics, optimization, visualization, and validation.</td></tr>
-<tr><td>`README.md`</td><td>Project artifact.</td></tr>
-<tr><td>`capstone-deck.md`</td><td>Project artifact.</td></tr>
-<tr><td>`print-packet.md`</td><td>Project artifact.</td></tr>
-</table>
-
-<div class="page-break"></div>
-
-<h2>design.md</h2>
-
-<p>Project intent, catalog metadata, assumptions, and validation plan.</p>
-
-<h1>Ocarina Build Packet</h1>
-
-<h2>Source</h2>
-
-<ul>
-<li>Design table: `docs/Ocarina.xlsx`</li>
-<li>Sheet: `Ocarina`</li>
-<li>Inspected range: `A1:H141`</li>
-<li>Workbook content observed: design inputs, size library, Helmholtz calculator, 12-hole fingering chart, ceramic workflow, BOM, design notes, and Wolfram notebook notes.</li>
-</ul>
-
-<h2>Design Intent</h2>
-
-<p>Build a slip-cast ceramic Alto C 12-hole ocarina using a 3D-printed master and plaster mold workflow. The current table is focused on the standard &quot;sweet potato&quot; vessel-flute form, but the same model can be used as the baseline for sculptural vessel flutes.</p>
-
-<h2>Governing Model</h2>
-
-<p>Ocarinas behave primarily as Helmholtz resonators:</p>
-
-<pre><code>
-f = c/(2*pi) * sqrt(A_open/(V_chamber * L_eff))
-</code></pre>
-
-<p>Unlike a transverse flute or Native American style flute, pitch is driven by chamber volume and total open-hole area, not tone-hole distance along a bore. Hole position is still important for ergonomics, grip, and fingering logic.</p>
-
-<h2>Current Workbook Inputs</h2>
-
-<table>
-<tr><th>Field</th><th>Current value</th></tr>
-<tr><td>Ocarina type</td><td>Alto C, 12-hole</td></tr>
-<tr><td>Chamber volume</td><td>130 cm3</td></tr>
-<tr><td>Wall thickness</td><td>0.4 cm</td></tr>
-<tr><td>Voicing window width</td><td>0.9 cm</td></tr>
-<tr><td>Voicing window height</td><td>0.5 cm</td></tr>
-<tr><td>Speed of sound</td><td>34300 cm/s</td></tr>
-<tr><td>Clay body</td><td>Cone 6 stoneware</td></tr>
-<tr><td>Shrinkage</td><td>12 percent</td></tr>
-<tr><td>Target low note</td><td>A4, 440 Hz</td></tr>
-<tr><td>Target high note</td><td>F6, 1397 Hz</td></tr>
-</table>
-
-<h2>Critical Design Features</h2>
-
-<ul>
-<li>Chamber volume is the master tuning input. Measure it by water fill after CAD, master print, greenware, bisque, and glaze fire.</li>
-<li>Voicing window area sets the all-closed low-note behavior along with volume and effective neck length.</li>
-<li>Fipple geometry is the playability bottleneck: windway gap, labium angle, channel smoothness, and edge sharpness should be treated as first-class dimensions.</li>
-<li>Finger holes should start undersized. Enlarge to sharpen; flattening after over-enlarging is possible but slower and less clean.</li>
-<li>Exterior-only glazing is preferred for tuning stability and acoustic response. Mask the fipple, holes, and chamber interior.</li>
-</ul>
-
-<h2>Workbook Improvement Notes</h2>
-
-<p>During inspection, rows 39-42 of the 12-hole fingering chart contain formulas for hole area, cumulative open area, and calculated frequency. Rows 43-51 currently show placeholder `=` cells instead of filled formulas. Recommended next workbook cleanup:</p>
-
-<p>1. Copy the area formula pattern from `D40:D42` through `D51`.</p>
-<p>2. Copy the cumulative area pattern from `E40:E42` through `E51`.</p>
-<p>3. Copy the frequency formula pattern from `F40:F42` through `F51`.</p>
-<p>4. Add measured frequency, cents error, and tuning action columns.</p>
-<p>5. Add a note that hole combinations can be cross-fingered if total open area is equivalent.</p>
-<p>6. Verify the size-library `Length (in)` column. Inspection showed serial-like values such as `46180`, so those cells may have been formatted or entered incorrectly.</p>
-
-<h2>Mold Strategy</h2>
-
-<p>Use a 2-piece plaster mold for the main body. The first prototype can use a press-molded body to speed iteration, but production should move toward slip casting once the fipple and chamber volume are stable.</p>
-
-<p>Recommended mold/CAD features:</p>
-
-<ul>
-<li>Split line around the widest body perimeter.</li>
-<li>Positive registration keys that do not trap clay.</li>
-<li>Pour/drain path or assembly opening appropriate to the chosen casting workflow.</li>
-<li>Removable or cleanable fipple detail. If the fipple is too delicate for the mold, cast a blank and hand-cut the voicing at leather-hard stage.</li>
-<li>Master scale factor: `1/(1 - shrinkage)`; for 12 percent shrinkage this is about `1.136`.</li>
-</ul>
-
-<h2>Prototype Ladder</h2>
+<p>The first prototype is the magazine-standard **Alto C 12-hole** (target low note A4 = 440 Hz, target high note F6 ≈ 1397 Hz, chamber volume 130 cm³ per the design table). The same parametric model can drive a Soprano C / Bass C extension once the Alto C voicing geometry is stable — see the prototype ladder in [`design.md`](design.md).</p>
 
 <table>
 <tr><th>Prototype</th><th>Goal</th><th>Success criteria</th></tr>
-<tr><td>OCA-P0 voicing tile</td><td>Practice windway/labium only</td><td>Clear tone on a disposable test cavity</td></tr>
-<tr><td>OCA-P1 closed vessel</td><td>Verify chamber volume and fipple</td><td>Stable A4-ish all-closed tone before finger holes</td></tr>
-<tr><td>OCA-P2 4-hole</td><td>Prove tuning workflow</td><td>Four tuned notes within +/-25 cents after bisque</td></tr>
-<tr><td>OCA-P3 12-hole</td><td>Full range test</td><td>Chromatic pattern playable, no blocked grip</td></tr>
-<tr><td>OCA-P4 matched set</td><td>Soprano C, Alto C, Bass C</td><td>Shared mold logic and glaze family</td></tr>
 </table>
-
-<h2>Open Assumptions</h2>
-
-<ul>
-<li>Pricing in the workbook is an estimate and has not been date-checked.</li>
-<li>Clay shrinkage must be measured for Tony&#x27;s actual slip, not assumed from supplier average.</li>
-<li>The fipple may need empirical iteration beyond the Helmholtz model.</li>
-<li>Exact ergonomics depend on hand span and final sculptural body shape.</li>
-</ul>
-
-<div class="page-break"></div>
-
-<h2>bom.csv</h2>
-
-<p>Starter bill of materials with part categories, quantities, drawing refs, and notes.</p>
-
+<p>|---|---|---|</p>
 <table>
-<tr><th>item_id</th><th>category</th><th>item</th><th>qty</th><th>spec</th><th>make_buy</th><th>estimated_cost</th><th>source_note</th><th>drawing_ref</th><th>notes</th></tr>
-<tr><td>OCA-BOM-001</td><td>Master</td><td>3D printed body master</td><td>1 set</td><td>PLA or resin printed top and bottom master</td><td>Make</td><td>$2-5</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-001</td><td>Scale master for measured clay shrinkage.</td></tr>
-<tr><td>OCA-BOM-002</td><td>Mold</td><td>#1 pottery plaster</td><td>10 lb</td><td>USG #1 pottery plaster or equivalent</td><td>Buy</td><td>$15-25</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-002</td><td>Enough for several small mold sets depending on cottle size.</td></tr>
-<tr><td>OCA-BOM-003</td><td>Clay</td><td>Cone 6 stoneware slip or clay body</td><td>25 lb</td><td>Slip casting body or press-moldable clay</td><td>Buy</td><td>$20-35</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-003</td><td>Record batch and measured shrinkage.</td></tr>
-<tr><td>OCA-BOM-004</td><td>Finish</td><td>Cone 6 exterior glaze</td><td>3-5 pints</td><td>Food-safe or durable ceramic glaze</td><td>Buy</td><td>$30-60</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-004</td><td>Mask fipple, holes, and interior.</td></tr>
-<tr><td>OCA-BOM-005</td><td>Tuning</td><td>Diamond needle files</td><td>1 set</td><td>Assorted profiles</td><td>Buy</td><td>$10-20</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-005</td><td>Needed after bisque and final fire.</td></tr>
-<tr><td>OCA-BOM-006</td><td>Tuning</td><td>Chromatic tuner or analysis app</td><td>1</td><td>Cent-accurate tuner</td><td>Buy</td><td>$15-30</td><td>Workbook estimate not date-checked</td><td>OCA-VAL-001</td><td>Use same app/settings across prototypes.</td></tr>
-<tr><td>OCA-BOM-007</td><td>Mold</td><td>Mold soap or release</td><td>1 bottle</td><td>Murphy&#x27;s oil soap or mold release</td><td>Buy</td><td>$5-10</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-002</td><td>For sealed master and plaster parting surfaces.</td></tr>
-<tr><td>OCA-BOM-008</td><td>Firing</td><td>Bisque and glaze firing</td><td>per load</td><td>Cone 06 bisque and Cone 6 glaze</td><td>Buy</td><td>$20-50/load</td><td>Workbook estimate not date-checked</td><td>OCA-VAL-002</td><td>Record firing schedule and kiln location.</td></tr>
-<tr><td>OCA-BOM-009</td><td>Masking</td><td>Wax resist</td><td>1 small jar</td><td>Brushable wax resist</td><td>Buy</td><td>TBD</td><td>Add supplier/date before purchase</td><td>OCA-DRW-004</td><td>Protect tuning-critical holes and fipple.</td></tr>
-<tr><td>OCA-BOM-010</td><td>Measurement</td><td>Graduated syringe or burette</td><td>1</td><td>Water-fill volume measurement</td><td>Buy</td><td>TBD</td><td>Add supplier/date before purchase</td><td>OCA-VAL-003</td><td>Needed for chamber volume validation.</td></tr>
+<tr><th>**OCA-P0** voicing tile</th><th>Fipple-only practice cavity</th><th>Clear tone on a disposable test cavity</th></tr>
+<tr><td>**OCA-P1** closed vessel</td><td>Verify chamber volume + fipple</td><td>Stable A4-ish all-closed tone before holes</td></tr>
+<tr><td>**OCA-P2** 4-hole</td><td>Prove tuning workflow</td><td>Four tuned notes within ±25 ¢ post-bisque</td></tr>
+<tr><td>**OCA-P3** 12-hole</td><td>Full range</td><td>Chromatic A4–A5 playable, no blocked grip</td></tr>
+<tr><td>**OCA-P4** matched set</td><td>Soprano / Alto / Bass C</td><td>Shared mold logic, shared glaze family</td></tr>
 </table>
 
-<div class="page-break"></div>
+<h2>Hardware alignment — Bambu printer + ceramic kiln</h2>
 
-<h2>sourcing.csv</h2>
+<p>This repo is one of the **slip-casting targets** for the in-flight Bambu printer + kiln pipeline. The build chain is:</p>
 
-<p>Supplier/search tracker with specs, price/date fields, lead time, substitutes, and risks.</p>
+<p>1. Parametric design table sets fired-body dimensions.</p>
+<p>2. Master scale factor `1/(1 - measured_shrinkage)` scales the master STL.</p>
+<p>3. Bambu print masters in PLA (or sealable resin); sand layer lines and seal.</p>
+<p>4. Two-piece plaster mother mold around the sealed master.</p>
+<p>5. Slip-cast Cone 6 stoneware → demold leather-hard → cut voicing window and finger holes undersized → bisque → tune → glaze → final fire.</p>
+<p>6. Validate against [`validation.csv`](validation.csv); fold corrections back into the design table.</p>
 
-<table>
-<tr><th>item_id</th><th>item</th><th>required_spec</th><th>search_terms</th><th>supplier_candidates</th><th>date_checked</th><th>unit_price</th><th>lead_time</th><th>substitution_rule</th><th>risk_note</th></tr>
-<tr><td>OCA-SRC-001</td><td>#1 pottery plaster</td><td>Pottery mold plaster suitable for absorbent ceramic molds</td><td>USG #1 pottery plaster 10 lb 25 lb</td><td>TBD</td><td></td><td></td><td></td><td>Use equivalent pottery plaster if absorption and strength are similar</td><td>Wrong plaster can give weak molds or poor casting absorption.</td></tr>
-<tr><td>OCA-SRC-002</td><td>Cone 6 casting slip</td><td>Stoneware slip with known shrinkage and firing schedule</td><td>cone 6 stoneware casting slip shrinkage</td><td>TBD</td><td></td><td></td><td></td><td>Substitute only after measuring shrinkage bars</td><td>Unknown shrinkage invalidates CAD scale factor.</td></tr>
-<tr><td>OCA-SRC-003</td><td>PLA or resin</td><td>Print material that can be sanded and sealed</td><td>PLA filament smooth master mold making resin print</td><td>TBD</td><td></td><td></td><td></td><td>Any stable printable material is acceptable if sealed</td><td>Layer lines transfer into mold and cast.</td></tr>
-<tr><td>OCA-SRC-004</td><td>Mold release</td><td>Mold soap compatible with plaster</td><td>pottery mold soap plaster release</td><td>TBD</td><td></td><td></td><td></td><td>Commercial mold soap preferred</td><td>Release failure can damage master or mold.</td></tr>
-<tr><td>OCA-SRC-005</td><td>Diamond files</td><td>Small round and tapered profiles</td><td>diamond needle file set ceramic tuning</td><td>TBD</td><td></td><td></td><td></td><td>Diamond burrs can substitute for some work</td><td>Coarse tools chip fired ceramic.</td></tr>
-<tr><td>OCA-SRC-006</td><td>Wax resist</td><td>Brushable wax for glaze masking</td><td>ceramic wax resist glaze masking</td><td>TBD</td><td></td><td></td><td></td><td>Latex or tape only if kiln-safe workflow is confirmed</td><td>Glaze in holes or windway can ruin tuning.</td></tr>
-<tr><td>OCA-SRC-007</td><td>Measurement tools</td><td>Cent-accurate tuner plus volume measurement</td><td>chromatic tuner cents water volume graduated syringe</td><td>TBD</td><td></td><td></td><td></td><td>Phone app acceptable for early tests</td><td>Inconsistent measurement hides process drift.</td></tr>
-</table>
+<p>The same pipeline serves the [`udu`](https://github.com/tonykoop/udu), [`gemshorn`](https://github.com/tonykoop/gemshorn), and [`transverse-flute`](https://github.com/tonykoop/transverse-flute) repos.</p>
 
-<div class="page-break"></div>
-
-<h2>cut-list.csv</h2>
-
-<p>Rough/final stock sizes, material, grain/orientation, operations, yield, and offcuts.</p>
-
-<table>
-<tr><th>cut_id</th><th>part</th><th>qty</th><th>rough_dimensions_in</th><th>final_dimensions_in</th><th>material</th><th>orientation</th><th>operation</th><th>tolerance_in</th><th>yield_or_offcut</th><th>notes</th></tr>
-<tr><td>OCA-CUT-001</td><td>Master body upper half (3D-printed)</td><td>1</td><td>4.50 x 3.50 x 2.50 envelope</td><td>master scale = 1/(1-shrinkage); for 12% shrinkage = 1.136x fired body</td><td>PLA or sealable resin</td><td>X along mouthpiece axis; Z up; mark split-line and chamber datum</td><td>Print, sand layer lines, fill voids, seal/sand, sign with build ID</td><td>+/-0.010</td><td>Save offcut sprues for shrinkage coupons</td><td>Master scale factor must be re-derived from MEASURED clay shrinkage before final master.</td></tr>
-<tr><td>OCA-CUT-002</td><td>Master body lower half (3D-printed)</td><td>1</td><td>4.50 x 3.50 x 2.50 envelope</td><td>mirror of OCA-CUT-001</td><td>PLA or sealable resin</td><td>X along mouthpiece axis; Z up; mark split-line</td><td>Print, sand, fill, seal</td><td>+/-0.010</td><td>Reuse offcut sprues for shrinkage coupons</td><td>Same scale factor as OCA-CUT-001.</td></tr>
-<tr><td>OCA-CUT-003</td><td>Wooden cottle boards (mold making)</td><td>4</td><td>8 x 6 x 0.75 each</td><td>7.50 x 5.50 x 0.75 each</td><td>Melamine-faced MDF or sealed plywood</td><td>Smooth face inward; mark inner clamping zone</td><td>Cut, edge-seal, drill clamping holes</td><td>+/-0.030</td><td>One sheet of 24 x 18 x 0.75 yields all 4</td><td>Clean parting wax/release before each pour.</td></tr>
-<tr><td>OCA-CUT-004</td><td>Plaster mother mold half (poured)</td><td>2</td><td>7.50 x 5.50 x 2.00 each</td><td>7.50 x 5.50 x 1.50-1.75 each (around master)</td><td>USG #1 pottery plaster (or equiv.)</td><td>Pour with master keyed to first half; second half over registration</td><td>Mix to 73:100 water:plaster (by weight); 2-min slake; pour around sealed master</td><td>+/-0.060</td><td>Trim spew/edge after demold; recover small offcuts as test slabs</td><td>Min 1.50 in plaster around master where practical for stiffness.</td></tr>
-<tr><td>OCA-CUT-005</td><td>Greenware vessel (slip-cast)</td><td>1 per pour</td><td>~3.95 x 3.07 x 2.20 (master cavity wet)</td><td>~3.50 x 2.72 x 1.95 fired (12% shrink)</td><td>Cone 6 stoneware casting slip</td><td>Mouthpiece axis along master split</td><td>Slip pour &gt; drain at target wall (~0.16 in / 0.4 cm) &gt; demold leather-hard</td><td>N/A (process-controlled)</td><td>Reuse demold trim/fettling waste as slip recycle</td><td>Wall thickness drives drying time and tap tone — measure on noncritical trim.</td></tr>
-<tr><td>OCA-CUT-006</td><td>Voicing window cut (leather-hard)</td><td>1</td><td>N/A</td><td>0.354 x 0.197 (window W x H = 0.9 x 0.5 cm per design)</td><td>Cone 6 greenware</td><td>Cut perpendicular to mouthpiece axis</td><td>Score, lift, clean labium edge with rib</td><td>+/-0.010</td><td>N/A</td><td>Cut undersized; tune by enlarging at bisque tuning step.</td></tr>
-<tr><td>OCA-CUT-007</td><td>Finger holes (12-hole layout — leather-hard)</td><td>12</td><td>N/A</td><td>0.16-0.31 dia each (start undersized; see design table OCA-DRW-005)</td><td>Cone 6 greenware</td><td>Per fingering chart row D40:F51 of design table</td><td>Brass tube cutter or hole punch; clean burr with damp finger</td><td>+/-0.010 (start)</td><td>N/A</td><td>All 12 holes start at design-table &#x27;minimum&#x27; diameter; enlarge at tuning.</td></tr>
-<tr><td>OCA-CUT-008</td><td>Post-bisque tuning trim</td><td>as needed</td><td>N/A</td><td>Within +/-25 cents of target frequency per validation.csv</td><td>Bisqued ceramic</td><td>N/A</td><td>Diamond needle file or fine diamond burr in steps</td><td>+/-0.005 dimensional; +/-25 cents acoustic</td><td>Diamond burr offcuts are kiln dust — bag and discard</td><td>Document each enlarge step on validation row.</td></tr>
-<tr><td>OCA-CUT-009</td><td>Wax resist mask (pre-glaze)</td><td>1 application</td><td>N/A</td><td>~0.020 in dry film over voicing window + all 12 holes + interior</td><td>Brushable wax resist</td><td>N/A</td><td>Brush-apply; dry per supplier; check all openings clear</td><td>Visual</td><td>N/A</td><td>Mask all acoustic edges to keep glaze out of windway and holes.</td></tr>
-<tr><td>OCA-CUT-010</td><td>Glaze application (exterior only)</td><td>1 application</td><td>N/A</td><td>~0.005-0.010 in per coat; 1-2 coats exterior</td><td>Cone 6 satin or matte glaze</td><td>Avoid waxed regions</td><td>Dip / brush / spray exterior only</td><td>+/-0.005 (visual)</td><td>N/A</td><td>Glaze in voicing window or holes will detune the instrument.</td></tr>
-</table>
-
-<div class="page-break"></div>
-
-<h2>drawing-brief.md</h2>
-
-<p>Manufacturing drawing and technical product sketch brief.</p>
-
-<h1>Ocarina Drawing Brief</h1>
-
-<h2>Required Views</h2>
-
-<ul>
-<li>Top view with body outline, hole layout, hand assignment, and centerline.</li>
-<li>Side view with mouthpiece axis, windway height, labium angle, body thickness, and split line.</li>
-<li>Section through fipple showing windway, labium, window, and chamber connection.</li>
-<li>Section through body showing chamber volume reference, target wall thickness, and mold split.</li>
-<li>Detail view for hole diameters and post-fire tuning allowance.</li>
-<li>Mold view showing plaster parting line, registration keys, pour/drain plan, and cottle clearance.</li>
-</ul>
-
-<h2>Critical Dimensions</h2>
-
-<table>
-<tr><th>Dimension</th><th>Source</th><th>Tolerance intent</th></tr>
-<tr><td>Chamber volume</td><td>Workbook input and water-fill measurement</td><td>Tuning critical</td></tr>
-<tr><td>Voicing window width/height</td><td>Workbook input</td><td>Playability critical</td></tr>
-<tr><td>Windway gap</td><td>CAD/test-piece measurement</td><td>Playability critical</td></tr>
-<tr><td>Labium angle and edge thickness</td><td>CAD/test-piece measurement</td><td>Playability critical</td></tr>
-<tr><td>Wall thickness</td><td>Workbook input and cast measurement</td><td>Tone/drying critical</td></tr>
-<tr><td>Hole diameters</td><td>Workbook chart and tuning log</td><td>Tuning critical</td></tr>
-<tr><td>Master scale factor</td><td>Measured clay shrinkage</td><td>Process critical</td></tr>
-</table>
-
-<h2>Notes For CAD</h2>
-
-<ul>
-<li>Store chamber volume as a named parameter.</li>
-<li>Store shrinkage factor as a named parameter.</li>
-<li>Separate final fired dimensions from master dimensions.</li>
-<li>Mark fipple geometry as prototype-sensitive; do not freeze it until test pieces speak reliably.</li>
-<li>Include a versioned body ID so castings can be tied back to the CAD master.</li>
-</ul>
-
-<div class="page-break"></div>
-
-<h2>assembly-manual.md</h2>
-
-<p>Shop-facing sequence, tools, fixtures, safety, tuning, finishing, and maintenance notes.</p>
-
-<h1>Ocarina Assembly Manual</h1>
-
-<h2>Scope</h2>
-
-<p>This manual covers a slip-cast or press-molded ceramic ocarina based on `docs/Ocarina.xlsx`. It is written for prototype builds where the first goal is repeatable tone and validated tuning, not decorative finish.</p>
-
-<h2>Tools</h2>
-
-<ul>
-<li>CAD package for master design.</li>
-<li>3D printer and sanding/sealing supplies.</li>
-<li>Cottle boards, plaster mixing bucket, scale, mold soap, and clamps.</li>
-<li>Stoneware slip or workable clay body.</li>
-<li>Small hole cutters, drill bits, needle tools, loop tools, ribs, sponge, and fettling knife.</li>
-<li>Chromatic tuner, microphone, calipers, graduated syringe or water-fill vessel.</li>
-<li>Diamond needle files or fine diamond burrs.</li>
-<li>Wax resist, glaze, and kiln access.</li>
-</ul>
-
-<h2>Process</h2>
-
-<p>1. **Set design inputs**</p>
-<p>   - Confirm target ocarina size, chamber volume, voicing window, wall thickness, clay body, and shrinkage.</p>
-<p>   - Create a build ID before CAD begins.</p>
-
-<p>2. **Model the master**</p>
-<p>   - Model the body as a controlled-volume vessel.</p>
-<p>   - Include split-line planning, registration features, and a fipple strategy.</p>
-<p>   - Scale the master by `1/(1 - measured_shrinkage)`.</p>
-
-<p>3. **Print and finish the master**</p>
-<p>   - Print the master with enough wall strength to survive mold making.</p>
-<p>   - Sand layer lines and seal the surface.</p>
-<p>   - Mark datums: centerline, mouthpiece axis, split plane, and hole reference side.</p>
-
-<p>4. **Make the mold**</p>
-<p>   - Apply release to the sealed master and cottle surfaces.</p>
-<p>   - Pour plaster with at least 1.5 inches around the master where practical.</p>
-<p>   - Add registration keys and dry the mold fully before casting.</p>
-
-<p>5. **Cast or press the body**</p>
-<p>   - For slip casting, pour slip, wait for target wall buildup, drain, and demold at leather-hard stage.</p>
-<p>   - For press molding, press even clay slabs into both mold halves and join with scored slip.</p>
-<p>   - Measure sample wall thickness at a noncritical trimmed area.</p>
-
-<p>6. **Cut fipple and holes**</p>
-<p>   - Establish the windway first.</p>
-<p>   - Cut the labium cleanly and test blow before the body fully dries.</p>
-<p>   - Cut finger holes undersized.</p>
-
-<p>7. **Dry slowly**</p>
-<p>   - Dry under plastic until moisture equalizes.</p>
-<p>   - Watch the mouthpiece and seam areas for cracks.</p>
-
-<p>8. **Bisque fire**</p>
-<p>   - Bisque to the clay body&#x27;s recommended schedule.</p>
-<p>   - Measure mass, volume, hole diameters, and frequencies.</p>
-
-<p>9. **Tune after bisque**</p>
-<p>   - Enlarge holes to raise pitch.</p>
-<p>   - Refine the fipple only in small steps.</p>
-<p>   - Record measured frequency and cents error after each change.</p>
-
-<p>10. **Glaze**</p>
-<p>    - Wax resist the windway, labium, holes, and any interior opening.</p>
-<p>    - Keep glaze away from the acoustic edges.</p>
-
-<p>11. **Final fire and validation**</p>
-<p>    - Fire to the chosen glaze schedule.</p>
-<p>    - Re-measure all tuning points.</p>
-<p>    - Save final dimensions and tuning data back into the validation log.</p>
-
-<h2>Failure Modes To Watch</h2>
-
-<ul>
-<li>Weak or no tone: windway too tall, labium too blunt, air jet missing edge.</li>
-<li>Pitch too flat: chamber too large, open area too small, or neck length too long.</li>
-<li>Pitch too sharp: chamber too small, open area too large, or over-filed holes.</li>
-<li>Warped mouthpiece: uneven drying or thin unsupported fipple geometry.</li>
-<li>Glaze-choked note: glaze reduced hole or windway opening.</li>
-</ul>
-
-<div class="page-break"></div>
-
-<h2>validation.csv</h2>
-
-<p>Target/measured values, tolerance, environment, result, and tuning/build action log.</p>
-
-<table>
-<tr><th>build_id</th><th>stage</th><th>date</th><th>clay_body</th><th>shrinkage_expected_pct</th><th>master_scale_factor</th><th>chamber_volume_cm3</th><th>wall_thickness_cm</th><th>voicing_w_cm</th><th>voicing_h_cm</th><th>hole_id</th><th>target_note</th><th>target_freq_hz</th><th>measured_freq_hz</th><th>cents_error</th><th>action</th><th>result</th><th>notes</th></tr>
-<tr><td>OCA-P0</td><td>voicing_tile</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>all_closed</td><td>A4</td><td>440</td><td></td><td></td><td></td><td></td><td>Practice fipple before full body.</td></tr>
-<tr><td>OCA-P1</td><td>greenware</td><td></td><td></td><td></td><td></td><td>130</td><td>0.4</td><td>0.9</td><td>0.5</td><td>all_closed</td><td>A4</td><td>440</td><td></td><td></td><td></td><td></td><td>Measure before drying if possible.</td></tr>
-<tr><td>OCA-P1</td><td>bisque</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>all_closed</td><td>A4</td><td>440</td><td></td><td></td><td></td><td></td><td>First real model check.</td></tr>
-<tr><td>OCA-P1</td><td>glaze_fire</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>all_closed</td><td>A4</td><td>440</td><td></td><td></td><td></td><td></td><td>Record glaze shift.</td></tr>
-<tr><td>OCA-P2</td><td>bisque</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>hole_1</td><td>Bb4</td><td>466.2</td><td></td><td></td><td></td><td></td><td>Start undersized and enlarge gradually.</td></tr>
-<tr><td>OCA-P2</td><td>bisque</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>hole_2</td><td>B4</td><td>493.9</td><td></td><td></td><td></td><td></td><td>Record hole diameter after tuning.</td></tr>
-<tr><td>OCA-P2</td><td>bisque</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>hole_3</td><td>C5</td><td>523.3</td><td></td><td></td><td></td><td></td><td>Check breath pressure sensitivity.</td></tr>
-<tr><td>OCA-P3</td><td>glaze_fire</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>hole_12</td><td>A5</td><td>880</td><td></td><td></td><td></td><td></td><td>Full 12-hole validation row.</td></tr>
-</table>
-
-<div class="page-break"></div>
-
-<h2>supplier-rfq.md</h2>
-
-<p>Supplier email/request-for-quote starter.</p>
-
-<h1>Supplier RFQ — Slip-Cast Ceramic Ocarina (OCA-001 family)</h1>
-
-<p>&gt; Use this as a template for outreach to ceramic-supply, plaster, mold-making, and finishing suppliers. Customize the Subject and address fields per recipient.</p>
-
-<p>**Subject:** RFQ — slip-cast ceramic ocarina prototype materials and consumables</p>
-
-<p>Hello,</p>
-
-<p>I&#x27;m a mechanical R&amp;D engineer prototyping a small family of slip-cast ceramic ocarinas (vessel flutes, ~3-4 in long, ~0.16 in / 4 mm wall) and need quotes for the following. The first build is an Alto C 12-hole prototype based on the parametric Helmholtz design table at [tonykoop/ocarina](https://github.com/tonykoop/ocarina).</p>
-
-<h2>Items</h2>
-
-<table>
-<tr><th>#</th><th>Item</th><th>Required spec</th><th>Approx. qty (per prototype run)</th></tr>
-</table>
-<p>|---|---|---|---|</p>
-<table>
-<tr><th>1</th><th>Cone 6 stoneware casting slip</th><th>Mature Cone 6 stoneware slip with **published shrinkage** (X/Y/Z), **water absorption %**, and **firing schedule**. White or light buff body preferred for tone consistency over dark iron-bearing slips.</th><th>1-5 gal</th></tr>
-<tr><td>2</td><td>#1 pottery plaster</td><td>USG #1 Pottery Plaster (or equivalent) suitable for absorbent slip-cast molds. Need **water:plaster ratio**, **set time**, **soluble salt content**.</td><td>10 lb (single mold) — 50 lb (production mold set)</td></tr>
-<tr><td>3</td><td>Mold release / mold soap</td><td>Plaster-compatible parting agent (Murphy&#x27;s-type oil soap or commercial mold soap).</td><td>1 bottle / 16 oz</td></tr>
-<tr><td>4</td><td>Cone 6 exterior glaze</td><td>Food-safe (or durable non-food-safe) satin or matte glaze. Color: TBD per family — likely earth/buff/cream. Glaze must not bridge holes or windway.</td><td>3-5 pints</td></tr>
-<tr><td>5</td><td>Brushable wax resist</td><td>Standard ceramic wax resist for masking voicing window, finger holes, and chamber interior pre-glaze.</td><td>1 small jar / 8 oz</td></tr>
-<tr><td>6</td><td>Diamond needle file set (post-bisque tuning)</td><td>Assorted profiles (round, half-round, taper) ~3-6 mm; resin-bonded acceptable.</td><td>1 set</td></tr>
-<tr><td>7</td><td>Hole cutters / brass tube cutters</td><td>Round cutters from ~0.156 in (4 mm) to ~0.313 in (8 mm) diameter for greenware finger-hole cutting.</td><td>1 set</td></tr>
-<tr><td>8</td><td>Bisque + glaze firing service (if local)</td><td>Cone 06 bisque + Cone 6 glaze fire; small cubic-foot kiln load.</td><td>2 fires per prototype</td></tr>
-<tr><td>9</td><td>(Optional) Master printing/outsource</td><td>If you do high-resolution PLA or resin prints up to ~5 in long with **0.005 in dimensional accuracy**, please quote. We currently print in-house but want a backup.</td><td>1-5 master pairs</td></tr>
-</table>
-
-<h2>What we need in your quote</h2>
-
-<ul>
-<li>**Unit price** and any volume breaks</li>
-<li>**Minimum order quantity**</li>
-<li>**Current stock status** and **lead time**</li>
-<li>**Shipping estimate** to 94566 (Pleasanton, CA) — or local pickup option</li>
-<li>**Material safety data sheet (MSDS)** and **technical data sheet** for items 1, 2, 4, 5</li>
-<li>**Recommended substitutions** for thin-walled (~4 mm) musical instrument bodies</li>
-<li>For item 1: most recent **shrinkage test data** for your batch (we will re-measure on our side, but a baseline matters)</li>
-</ul>
-
-<h2>Acceptance criteria</h2>
-
-<p>The prototypes are measured for X/Y/Z shrinkage, bore/cavity volume after firing, wall-thickness consistency, and acoustic tuning (chromatic tuner, ±25 cents target post-bisque). Slip with unknown or wildly variable shrinkage invalidates the master scale factor (currently `1/(1-0.12) = 1.136`), so reproducibility data is more valuable than headline price.</p>
-
-<p>The repo is a private R&amp;D portfolio repo; we do not need any IP-restricted documents. Public-domain MSDS and supplier spec sheets are sufficient.</p>
-
-<p>Thank you,</p>
-
-<p>Tony Koop</p>
-<p>Mechanical R&amp;D Engineer</p>
-<p>tonykoop@gmail.com</p>
-<p>github.com/tonykoop/ocarina (private; access on request)</p>
-
-<div class="page-break"></div>
-
-<h2>visual-bom-brief.md</h2>
-
-<p>Art direction for an image-forward visual BOM.</p>
-
-<h1>Ocarina Visual BOM Brief</h1>
-
-<h2>Goal</h2>
-
-<p>Create a one-page visual BOM that helps a builder understand the ceramic ocarina workflow from digital master to tuned fired instrument.</p>
-
-<h2>Layout</h2>
-
-<ul>
-<li>Header: &quot;Slip-Cast Ceramic Ocarina - Alto C Prototype&quot;.</li>
-<li>Hero image: finished ocarina or clean CAD render.</li>
-<li>Process strip: CAD master, 3D print, plaster mold, greenware, bisque, tuning, glaze fire.</li>
-<li>BOM table: item number, part/material, quantity, spec, estimated cost, make/buy, image.</li>
-<li>Callout inset: fipple section with windway, labium, and voicing window labels.</li>
-<li>Validation inset: chamber volume, all-closed note, highest tested note, cents error.</li>
-</ul>
-
-<h2>Image Requirements</h2>
-
-<p>Use real shop photos when available. Generated or rendered placeholders should be labeled as placeholders until replaced with:</p>
-
-<ul>
-<li>Master print photo.</li>
-<li>Plaster mold photo.</li>
-<li>Greenware body photo.</li>
-<li>Fipple close-up.</li>
-<li>Final fired instrument.</li>
-<li>Tuning tool/photo of measurement setup.</li>
-</ul>
-
-<div class="page-break"></div>
-
-<h2>wolfram-starter.wl</h2>
-
-<p>Wolfram starter for physics, optimization, visualization, and validation.</p>
+<h2>Repository structure</h2>
 
 <pre><code>
-(* Ocarina Helmholtz notebook starter *)
-
-ClearAll[&quot;Global`*&quot;];
-
-c = 34300; (* cm/s at about 20 C *)
-targetA4 = 440;
-volumeCm3 = 130;
-wallCm = 0.4;
-windowWcm = 0.9;
-windowHcm = 0.5;
-
-voicingAreaCm2[w_, h_] := w*h;
-endCorrectionCm[area_] := 0.6*Sqrt[area/Pi];
-helmholtzHz[area_, volume_, neckLength_] :=
-  (c/(2*Pi))*Sqrt[area/(volume*neckLength)];
-centsError[measured_, target_] := 1200*Log[2, measured/target];
-
-baseArea = voicingAreaCm2[windowWcm, windowHcm];
-baseNeck = wallCm + endCorrectionCm[baseArea];
-baseFreq = helmholtzHz[baseArea, volumeCm3, baseNeck];
-
-holeDiameterMmToAreaCm2[d_] := Pi*(d/20)^2;
-targetFreq[midi_] := 440*2^((midi - 69)/12);
-areaForFrequency[f_, volume_, neckLength_] :=
-  volume*neckLength*(2*Pi*f/c)^2;
-
-(* Candidate cumulative area table for A4 to A5. *)
-notes = {
-  {&quot;A4&quot;, 69}, {&quot;Bb4&quot;, 70}, {&quot;B4&quot;, 71}, {&quot;C5&quot;, 72},
-  {&quot;C#5&quot;, 73}, {&quot;D5&quot;, 74}, {&quot;D#5&quot;, 75}, {&quot;E5&quot;, 76},
-  {&quot;F5&quot;, 77}, {&quot;F#5&quot;, 78}, {&quot;G5&quot;, 79}, {&quot;G#5&quot;, 80}, {&quot;A5&quot;, 81}
-};
-
-areaTable = Table[
-  With[{freq = targetFreq[midi]},
-    {name, freq, areaForFrequency[freq, volumeCm3, baseNeck]}
-  ],
-  { {name, midi}, notes}
-];
-
-areaTable // TableForm
+ocarina/
+├── README.md                       ← you are here
+├── LICENSE                         ← CC-BY 4.0
+│
+├── design.md                       ← Helmholtz model, design intent, prototype ladder
+├── ocarina-design-table.xlsx       ← parametric spreadsheet (formulas, blue inputs)
+│
+├── bom.csv                         ← bill of materials
+├── sourcing.csv                    ← supplier/search tracker
+├── cut-list.csv                    ← rough/finished dimensions, tolerances
+├── validation.csv                  ← target/measured tuning + cents-error log
+├── supplier-rfq.md                 ← RFQ template for slip / plaster / consumables
+│
+├── assembly-manual.md              ← shop-floor build sequence
+├── drawing-brief.md                ← required views + critical dimensions for CAD
+├── visual-bom-brief.md             ← visual-BOM art-direction brief
+├── wolfram-starter.wl              ← Helmholtz physics starter notebook
+│
+├── capstone-deck.{md,pptx}         ← capstone slide deck (12 slides)
+├── print-packet.{md,html,pdf}      ← combined print-ready shop packet (18 pp)
+├── capstone-manifest.json          ← orientation manifest
+│
+├── cad/                            ← parametric body OpenSCAD starter
+├── cnc/                            ← (deferred — slip-cast does not need CNC unless turning a wooden master)
+├── drawings/                       ← SVG drawings: section, fipple detail, hole layout
+└── images/                         ← AI-generated concept renders (placeholders)
 </code></pre>
 
-<div class="page-break"></div>
-
-<h2>README.md</h2>
-
-<p>Project artifact.</p>
-
-<h1>Ocarina — Slip-Cast Ceramic Vessel-Flute Family</h1>
-
-<p>&gt; *Engineering documentation for a 3D-printed-master, plaster-mold, cone-6-stoneware slip-cast ocarina family — from Helmholtz physics through the parametric design table to a manufacturable build packet.*</p>
-
-<p>![Hero — AI-generated concept render of a slip-cast Alto C 12-hole ocarina (placeholder until first prototype is photographed)](images/hero-concept.</p>
-
-<div class="page-break"></div>
-
-<h2>capstone-deck.md</h2>
-
-<p>Project artifact.</p>
-
-<h1>Slip-Cast Ceramic Ocarina (OCA-001) — Build Packet</h1>
-<ul>
-<li>Musical instrument documentation capstone</li>
-<li>Build packet: ocarina</li>
-<li>Generated: 2026-05-02</li>
-</ul>
-
-<p>---</p>
-
-<h1>Project Intent</h1>
-<ul>
-<li>See design.md for intent.</li>
-</ul>
-
-<p>_Speaker notes:_ Read design.md before committing to dimensions or sourcing decisions.</p>
-
-<p>---</p>
-
-<h1>How To Use This Packet</h1>
-<ul>
-<li>Start with design.md for intent and assumptions.</li>
-<li>Use bom.csv, sourcing.csv, and cut-list.csv before buying or cutting.</li>
-<li>Use drawing-brief.md and CAD/CNC folders before machining.</li>
-<li>Print the packet for shopping, shop work, and validation.</li>
-</ul>
-
-<p>---</p>
-
-<h1>File Map</h1>
-<ul>
-<li>design.md: Project intent, catalog metadata, assumptions, and validation plan.</li>
-<li>bom.csv: Starter bill of materials with part categories, quantities, drawing refs, and notes.</li>
-<li>sourcing.csv: Supplier/search tracker with specs, price/date fields, lead time, substitutes, and risks.</li>
-<li>cut-list.csv: Rough/final stock sizes, material, grain/orientation, operations, yield, and offcuts.</li>
-<li>drawing-brief.md: Manufacturing drawing and technical product sketch brief.</li>
-<li>assembly-manual.md: Shop-facing sequence, tools, fixtures, safety, tuning, finishing, and maintenance notes.</li>
-<li>validation.csv: Target/measured values, tolerance, environment, result, and tuning/build action log.</li>
-<li>supplier-rfq.md: Supplier email/request-for-quote starter.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Build Workflow</h1>
-<ul>
-<li>Design and assumptions</li>
-<li>Source materials and hardware</li>
-<li>Prepare stock, fixtures, and CNC/laser/lathe setup</li>
-<li>Assemble, tune, finish, and validate</li>
-</ul>
-
-<p>---</p>
-
-<h1>Sourcing And BOM</h1>
-<ul>
-<li>BOM gives part categories and drawing references.</li>
-<li>Sourcing tracks search terms, supplier candidates, price/date, lead time, substitutions.</li>
-<li>Visual BOM brief turns the parts list into a presentation-ready image board.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Shop Packet</h1>
-<ul>
-<li>Cut list for lumber/sheet/blank planning.</li>
-<li>Assembly manual for away-from-keyboard work.</li>
-<li>Validation sheet for measured dimensions, tuning, pass/fail checks.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Drawings, CAD, CNC</h1>
-<ul>
-<li>drawing-brief.md defines required views, dimensions, datums, sketch intent.</li>
-<li>cad/ holds models and design tables.</li>
-<li>cnc/ holds CAM, toolpaths, setup sheets, dry-run notes.</li>
-<li>drawings/ holds PDFs, SVGs, DXFs, drawing exports.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Images And Screenshots</h1>
-<ul>
-<li>images/exploded-view-concept.png</li>
-<li>images/hero-concept.png</li>
-<li>images/mold-cross-section-concept.png</li>
-</ul>
-
-<p>---</p>
-
-<h1>Validation Plan</h1>
-<ul>
-<li>A4 = 440 Hz reference check.</li>
-<li>Tuning targets logged in validation.csv.</li>
-<li>Critical dimensions verified against design sheet and CAD.</li>
-<li>Photos and revision notes after each major step.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Open Risks / Decisions</h1>
-<ul>
-<li>TBDs in design sheet and BOM.</li>
-<li>Supplier price/availability not yet verified.</li>
-<li>Generated images marked as concept placeholders.</li>
-<li>Empirical corrections await measured prototype data.</li>
-</ul>
-
-<p>---</p>
-
-<h1>Next Actions</h1>
-<ul>
-<li>Replace TBDs with measured/source-backed values.</li>
-<li>Verify live supplier price and availability before buying.</li>
-<li>Export final drawings and visual BOM images.</li>
-<li>Regenerate this deck and print packet after final edits.</li>
-</ul>
-
-<p>---</p>
-
-<div class="page-break"></div>
-
-<h2>print-packet.md</h2>
-
-<p>Project artifact.</p>
-
-<h1>Slip-Cast Ceramic Ocarina (OCA-001) — Build Packet Print Packet</h1>
-
-<p>Generated: 2026-05-02</p>
-<p>Packet folder: `/sessions/charming-bold-fermat/mnt/GitHub/ocarina`</p>
-
-<h2>File Map</h2>
+<h2>Status</h2>
 
 <table>
-<tr><th>File</th><th>Purpose</th></tr>
-<tr><td>`design.md`</td><td>Project intent, catalog metadata, assumptions, and validation plan.</td></tr>
-<tr><td>`bom.csv`</td><td>Starter bill of materials with part categories, quantities, drawing refs, and notes.</td></tr>
-<tr><td>`sourcing.csv`</td><td>Supplier/search tracker with specs, price/date fields, lead time, substitutes, and risks.</td></tr>
-<tr><td>`cut-list.csv`</td><td>Rough/final stock sizes, material, grain/orientation, operations, yield, and offcuts.</td></tr>
-<tr><td>`drawing-brief.md`</td><td>Manufacturing drawing and technical product sketch brief.</td></tr>
-<tr><td>`assembly-manual.md`</td><td>Shop-facing sequence, tools, fixtures, safety, tuning, finishing, and maintenance notes.</td></tr>
-<tr><td>`validation.csv`</td><td>Target/measured values, tolerance, environment, result, and tuning/build action log.</td></tr>
-<tr><td>`supplier-rfq.md`</td><td>Supplier email/request-for-quote starter.</td></tr>
-<tr><td>`visual-bom-brief.md`</td><td>Art direction for an image-forward visual BOM.</td></tr>
-<tr><td>`wolfram-starter.wl`</td><td>Wolfram starter for physics, optimization, visualization, and validation.</td></tr>
-<tr><td>`README.md`</td><td>Project artifact.</td></tr>
+<tr><th>Section</th><th>Status</th></tr>
 </table>
-
-<div class="page-break"></div>
-
-<h2>design.md</h2>
-
-<p>Project intent, catalog metadata, assumptions, and validation plan.</p>
-
-<h1>Ocarina Build Packet</h1>
-
-<h2>Source</h2>
-
-<ul>
-<li>Design table: `docs/Ocarina.xlsx`</li>
-<li>Sheet: `Ocarina`</li>
-<li>Inspected range: `A1:H141`</li>
-<li>Workbook content observed: design inputs, size library, Helmholtz calculator, 12-hole fingering chart, ceramic workflow, BOM, design notes, and Wolfram notebook notes.</li>
-</ul>
-
-<h2>Design Intent</h2>
-
-<p>Build a slip-cast ceramic Alto C 12-hole ocarina using a 3D-printed master and plaster mold workflow. The current table is focused on the standard &quot;sweet potato&quot; vessel-flute form, but the same model can be used as the baseline for sculptural vessel flutes.</p>
-
-<h2>Governing Model</h2>
-
-<p>Ocarinas behave primarily as Helmholtz resonators:</p>
-
-<pre><code>
-f = c/(2*pi) * sqrt(A_open/(V_chamber * L_eff))
-</code></pre>
-
-<p>Unlike a transverse flute or Native American style flute, pitch is driven by chamber volume and total open-hole area, not tone-hole distance along a bore. Hole position is still important for ergonomics, grip, and fingering logic.</p>
-
-<h2>Current Workbook Inputs</h2>
-
+<p>|---|---|</p>
 <table>
-<tr><th>Field</th><th>Current value</th></tr>
-<tr><td>Ocarina type</td><td>Alto C, 12-hole</td></tr>
-<tr><td>Chamber volume</td><td>130 cm3</td></tr>
-<tr><td>Wall thickness</td><td>0.4 cm</td></tr>
-<tr><td>Voicing window width</td><td>0.9 cm</td></tr>
-<tr><td>Voicing window height</td><td>0.5 cm</td></tr>
-<tr><td>Speed of sound</td><td>34300 cm/s</td></tr>
-<tr><td>Clay body</td><td>Cone 6 stoneware</td></tr>
-<tr><td>Shrinkage</td><td>12 percent</td></tr>
-<tr><td>Target low note</td><td>A4, 440 Hz</td></tr>
-<tr><td>Target high note</td><td>F6, 1397 Hz</td></tr>
+<tr><th>Parametric design table + Helmholtz model</th><th>✓ done</th></tr>
+<tr><td>Build packet (BOM / sourcing / cut-list / validation / RFQ)</td><td>✓ done</td></tr>
+<tr><td>Assembly manual + drawing brief</td><td>✓ done</td></tr>
+<tr><td>Wolfram physics starter</td><td>✓ done</td></tr>
+<tr><td>Capstone deck + print packet</td><td>✓ done (auto-generated, recruiter-facing)</td></tr>
+<tr><td>Concept renders (AI-generated, captioned)</td><td>✓ done (placeholders)</td></tr>
+<tr><td>Parametric CAD (OpenSCAD starter)</td><td>✓ done (master-shape only; voicing detail by hand)</td></tr>
+<tr><td>Dimensioned drawings (SVG)</td><td>✓ done (section + hole layout)</td></tr>
+<tr><td>Production-ready CAD (.step / .stl)</td><td>**deferred** — generated after empirical voicing validation in build queue</td></tr>
+<tr><td>Mold turning / CNC toolpaths</td><td>**deferred** — slip-cast workflow uses 3D-printed master, not turned wooden master</td></tr>
+<tr><td>First OCA-P1 prototype build</td><td>forthcoming (Bambu + kiln pipeline)</td></tr>
 </table>
 
-<h2>Critical Design Features</h2>
-
-<ul>
-<li>Chamber volume is the master tuning input. Measure it by water fill after CAD, master print, greenware, bisque, and glaze fire.</li>
-<li>Voicing window area sets the all-closed low-note behavior along with volume and effective neck length.</li>
-<li>Fipple geometry is the playability bottleneck: windway gap, labium angle, channel smoothness, and edge sharpness should be treated as first-class dimensions.</li>
-<li>Finger holes should start undersized. Enlarge to sharpen; flattening after over-enlarging is possible but slower and less clean.</li>
-<li>Exterior-only glazing is preferred for tuning stability and acoustic response. Mask the fipple, holes, and chamber interior.</li>
-</ul>
-
-<h2>Workbook Improvement Notes</h2>
-
-<p>During inspection, rows 39-42 of the 12-hole fingering chart contain formulas for hole area, cumulative open area, and calculated frequency. Rows 43-51 currently show placeholder `=` cells instead of filled formulas. Recommended next workbook cleanup:</p>
-
-<p>1. Copy the area formula pattern from `D40:D42` through `D51`.</p>
-<p>2. Copy the cumulative area pattern from `E40:E42` through `E51`.</p>
-<p>3. Copy the frequency formula pattern from `F40:F42` through `F51`.</p>
-<p>4. Add measured frequency, cents error, and tuning action columns.</p>
-<p>5. Add a note that hole combinations can be cross-fingered if total open area is equivalent.</p>
-<p>6. Verify the size-library `Length (in)` column. Inspection showed serial-like values such as `46180`, so those cells may have been formatted or entered incorrectly.</p>
-
-<h2>Mold Strategy</h2>
-
-<p>Use a 2-piece plaster mold for the main body. The first prototype can use a press-molded body to speed iteration, but production should move toward slip casting once the fipple and chamber volume are stable.</p>
-
-<p>Recommended mold/CAD features:</p>
-
-<ul>
-<li>Split line around the widest body perimeter.</li>
-<li>Positive registration keys that do not trap clay.</li>
-<li>Pour/drain path or assembly opening appropriate to the chosen casting workflow.</li>
-<li>Removable or cleanable fipple detail. If the fipple is too delicate for the mold, cast a blank and hand-cut the voicing at leather-hard stage.</li>
-<li>Master scale factor: `1/(1 - shrinkage)`; for 12 percent shrinkage this is about `1.136`.</li>
-</ul>
-
-<h2>Prototype Ladder</h2>
-
-<table>
-<tr><th>Prototype</th><th>Goal</th><th>Success criteria</th></tr>
-<tr><td>OCA-P0 voicing tile</td><td>Practice windway/labium only</td><td>Clear tone on a disposable test cavity</td></tr>
-<tr><td>OCA-P1 closed vessel</td><td>Verify chamber volume and fipple</td><td>Stable A4-ish all-closed tone before finger holes</td></tr>
-<tr><td>OCA-P2 4-hole</td><td>Prove tuning workflow</td><td>Four tuned notes within +/-25 cents after bisque</td></tr>
-<tr><td>OCA-P3 12-hole</td><td>Full range test</td><td>Chromatic pattern playable, no blocked grip</td></tr>
-<tr><td>OCA-P4 matched set</td><td>Soprano C, Alto C, Bass C</td><td>Shared mold logic and glaze family</td></tr>
-</table>
-
-<h2>Open Assumptions</h2>
-
-<ul>
-<li>Pricing in the workbook is an estimate and has not been date-checked.</li>
-<li>Clay shrinkage must be measured for Tony&#x27;s actual slip, not assumed from supplier average.</li>
-<li>The fipple may need empirical iteration beyond the Helmholtz model.</li>
-<li>Exact ergonomics depend on hand span and final sculptural body shape.</li>
-</ul>
-
-<div class="page-break"></div>
-
-<h2>bom.csv</h2>
-
-<p>Starter bill of materials with part categories, quantities, drawing refs, and notes.</p>
-
-<table>
-<tr><th>item_id</th><th>category</th><th>item</th><th>qty</th><th>spec</th><th>make_buy</th><th>estimated_cost</th><th>source_note</th><th>drawing_ref</th><th>notes</th></tr>
-<tr><td>OCA-BOM-001</td><td>Master</td><td>3D printed body master</td><td>1 set</td><td>PLA or resin printed top and bottom master</td><td>Make</td><td>$2-5</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-001</td><td>Scale master for measured clay shrinkage.</td></tr>
-<tr><td>OCA-BOM-002</td><td>Mold</td><td>#1 pottery plaster</td><td>10 lb</td><td>USG #1 pottery plaster or equivalent</td><td>Buy</td><td>$15-25</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-002</td><td>Enough for several small mold sets depending on cottle size.</td></tr>
-<tr><td>OCA-BOM-003</td><td>Clay</td><td>Cone 6 stoneware slip or clay body</td><td>25 lb</td><td>Slip casting body or press-moldable clay</td><td>Buy</td><td>$20-35</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-003</td><td>Record batch and measured shrinkage.</td></tr>
-<tr><td>OCA-BOM-004</td><td>Finish</td><td>Cone 6 exterior glaze</td><td>3-5 pints</td><td>Food-safe or durable ceramic glaze</td><td>Buy</td><td>$30-60</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-004</td><td>Mask fipple, holes, and interior.</td></tr>
-<tr><td>OCA-BOM-005</td><td>Tuning</td><td>Diamond needle files</td><td>1 set</td><td>Assorted profiles</td><td>Buy</td><td>$10-20</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-005</td><td>Needed after bisque and final fire.</td></tr>
-<tr><td>OCA-BOM-006</td><td>Tuning</td><td>Chromatic tuner or analysis app</td><td>1</td><td>Cent-accurate tuner</td><td>Buy</td><td>$15-30</td><td>Workbook estimate not date-checked</td><td>OCA-VAL-001</td><td>Use same app/settings across prototypes.</td></tr>
-<tr><td>OCA-BOM-007</td><td>Mold</td><td>Mold soap or release</td><td>1 bottle</td><td>Murphy&#x27;s oil soap or mold release</td><td>Buy</td><td>$5-10</td><td>Workbook estimate not date-checked</td><td>OCA-DRW-002</td><td>For sealed master and plaster parting surfaces.</td></tr>
-<tr><td>OCA-BOM-008</td><td>Firing</td><td>Bisque and glaze firing</td><td>per load</td><td>Cone 06 bisque and Cone 6 glaze</td><td>Buy</td><td>$20-50/load</td><td>Workbook estimate not date-checked</td><td>OCA-VAL-002</td><td>Record firing schedule and kiln location.</td></tr>
-<tr><td>OCA-BOM-009</td><td>Masking</td><td>Wax resist</td><td>1 small jar</td><td>Brushable wax resist</td><td>Buy</td><td>TBD</td><td>Add supplier/date before purchase</td><td>OCA-DRW-004</td><td>Protect tuning-critical holes and fipple.</td></tr>
-<tr><td>OCA-BOM-010</td><td>Measurement</td><td>Graduated syringe or burette</td><td>1</td><td>Water-fill volume measurement</td><td>Buy</td><td>TBD</td><td>Add supplier/date before purchase</td><td>OCA-VAL-003</td><td>Needed for chamber volume validation.</td></tr>
-</table>
-
-<div class="page-break"></div>
-
-<h2>sourcing.csv</h2>
-
-<p>Supplier/search tracker with specs, price/date fields, lead time, substitutes, and risks.</p>
-
-<table>
-<tr><th>item_id</th><th>item</th><th>required_spec</th><th>search_terms</th><th>supplier_candidates</th><th>date_checked</th><th>unit_price</th><th>lead_time</th><th>substitution_rule</th><th>risk_note</th></tr>
-<tr><td>OCA-SRC-001</td><td>#1 pottery plaster</td><td>Pottery mold plaster suitable for absorbent ceramic molds</td><td>USG #1 pottery plaster 10 lb 25 lb</td><td>TBD</td><td></td><td></td><td></td><td>Use equivalent pottery plaster if absorption and strength are similar</td><td>Wrong plaster can give weak molds or poor casting absorption.</td></tr>
-<tr><td>OCA-SRC-002</td><td>Cone 6 casting slip</td><td>Stoneware slip with known shrinkage and firing schedule</td><td>cone 6 stoneware casting slip shrinkage</td><td>TBD</td><td></td><td></td><td></td><td>Substitute only after measuring shrinkage bars</td><td>Unknown shrinkage invalidates CAD scale factor.</td></tr>
-<tr><td>OCA-SRC-003</td><td>PLA or resin</td><td>Print material that can be sanded and sealed</td><td>PLA filament smooth master mold making resin print</td><td>TBD</td><td></td><td></td><td></td><td>Any stable printable material is acceptable if sealed</td><td>Layer lines transfer into mold and cast.</td></tr>
-<tr><td>OCA-SRC-004</td><td>Mold release</td><td>Mold soap compatible with plaster</td><td>pottery mold soap plaster release</td><td>TBD</td><td></td><td></td><td></td><td>Commercial mold soap preferred</td><td>Release failure can damage master or mold.</td></tr>
-<tr><td>OCA-SRC-005</td><td>Diamond files</td><td>Small round and tapered profiles</td><td>diamond needle file set ceramic tuning</td><td>TBD</td><td></td><td></td><td></td><td>Diamond burrs can substitute for some work</td><td>Coarse tools chip fired ceramic.</td></tr>
-<tr><td>OCA-SRC-006</td><td>Wax resist</td><td>Brushable wax for glaze masking</td><td>ceramic wax resist glaze masking</td><td>TBD</td><td></td><td></td><td></td><td>Latex or tape only if kiln-safe workflow is confirmed</td><td>Glaze in holes or windway can ruin tuning.</td></tr>
-<tr><td>OCA-SRC-007</td><td>Measurement tools</td><td>Cent-accurate tuner plus volume measurement</td><td>chromatic tuner cents water volume graduated syringe</td><td>TBD</td><td></td><td></td><td></td><td>Phone app acceptable for early tests</td><td>Inconsistent measurement hides process drift.</td></tr>
-</table>
-
-<div class="page-break"></div>
-
-<h2>cut-list.csv</h2>
-
-<p>Rough/final stock sizes, material, grain/orientation, operations, yield, and offcuts.</p>
-
-<table>
-<tr><th>cut_id</th><th>part</th><th>qty</th><th>rough_dimensions_in</th><th>final_dimensions_in</th><th>material</th><th>orientation</th><th>operation</th><th>tolerance_in</th><th>yield_or_offcut</th><th>notes</th></tr>
-<tr><td>OCA-CUT-001</td><td>Master body upper half (3D-printed)</td><td>1</td><td>4.50 x 3.50 x 2.50 envelope</td><td>master scale = 1/(1-shrinkage); for 12% shrinkage = 1.136x fired body</td><td>PLA or sealable resin</td><td>X along mouthpiece axis; Z up; mark split-line and chamber datum</td><td>Print, sand layer lines, fill voids, seal/sand, sign with build ID</td><td>+/-0.010</td><td>Save offcut sprues for shrinkage coupons</td><td>Master scale factor must be re-derived from MEASURED clay shrinkage before final master.</td></tr>
-<tr><td>OCA-CUT-002</td><td>Master body lower half (3D-printed)</td><td>1</td><td>4.50 x 3.50 x 2.50 envelope</td><td>mirror of OCA-CUT-001</td><td>PLA or sealable resin</td><td>X along mouthpiece axis; Z up; mark split-line</td><td>Print, sand, fill, seal</td><td>+/-0.010</td><td>Reuse offcut sprues for shrinkage coupons</td><td>Same scale factor as OCA-CUT-001.</td></tr>
-<tr><td>OCA-CUT-003</td><td>Wooden cottle boards (mold making)</td><td>4</td><td>8 x 6 x 0.75 each</td><td>7.50 x 5.50 x 0.75 each</td><td>Melamine-faced MDF or sealed plywood</td><td>Smooth face inward; mark inner clamping zone</td><td>Cut, edge-seal, drill clamping holes</td><td>+/-0.030</td><td>One sheet of 24 x 18 x 0.75 yields all 4</td><td>Clean parting wax/release before each pour.</td></tr>
-<tr><td>OCA-CUT-004</td><td>Plaster mother mold half (poured)</td><td>2</td><td>7.50 x 5.50 x 2.00 each</td><td>7.50 x 5.50 x 1.50-1.75 each (around master)</td><td>USG #1 pottery plaster (or equiv.)</td><td>Pour with master keyed to first half; second half over registration</td><td>Mix to 73:100 water:plaster (by weight); 2-min slake; pour around sealed master</td><td>+/-0.060</td><td>Trim spew/edge after demold; recover small offcuts as test slabs</td><td>Min 1.50 in plaster around master where practical for stiffness.</td></tr>
-<tr><td>OCA-CUT-005</td><td>Greenware vessel (slip-cast)</td><td>1 per pour</td><td>~3.95 x 3.07 x 2.20 (master cavity wet)</td><td>~3.50 x 2.72 x 1.95 fired (12% shrink)</td><td>Cone 6 stoneware casting slip</td><td>Mouthpiece axis along master split</td><td>Slip pour &gt; drain at target wall (~0.16 in / 0.4 cm) &gt; demold leather-hard</td><td>N/A (process-controlled)</td><td>Reuse demold trim/fettling waste as slip recycle</td><td>Wall thickness drives drying time and tap tone — measure on noncritical trim.</td></tr>
-<tr><td>OCA-CUT-006</td><td>Voicing window cut (leather-hard)</td><td>1</td><td>N/A</td><td>0.354 x 0.197 (window W x H = 0.9 x 0.5 cm per design)</td><td>Cone 6 greenware</td><td>Cut perpendicular to mouthpiece axis</td><td>Score, lift, clean labium edge with rib</td><td>+/-0.010</td><td>N/A</td><td>Cut undersized; tune by enlarging at bisque tuning step.</td></tr>
-<tr><td>OCA-CUT-007</td><td>Finger holes (12-hole layout — leather-hard)</td><td>12</td><td>N/A</td><td>0.16-0.31 dia each (start undersized; see design table OCA-DRW-005)</td><td>Cone 6 greenware</td><td>Per fingering chart row D40:F51 of design table</td><td>Brass tube cutter or hole punch; clean burr with damp finger</td><td>+/-0.010 (start)</td><td>N/A</td><td>All 12 holes start at design-table &#x27;minimum&#x27; diameter; enlarge at tuning.</td></tr>
-<tr><td>OCA-CUT-008</td><td>Post-bisque tuning trim</td><td>as needed</td><td>N/A</td><td>Within +/-25 cents of target frequency per validation.csv</td><td>Bisqued ceramic</td><td>N/A</td><td>Diamond needle file or fine diamond burr in steps</td><td>+/-0.005 dimensional; +/-25 cents acoustic</td><td>Diamond burr offcuts are kiln dust — bag and discard</td><td>Document each enlarge step on validation row.</td></tr>
-<tr><td>OCA-CUT-009</td><td>Wax resist mask (pre-glaze)</td><td>1 application</td><td>N/A</td><td>~0.020 in dry film over voicing window + all 12 holes + interior</td><td>Brushable wax resist</td><td>N/A</td><td>Brush-apply; dry per supplier; check all openings clear</td><td>Visual</td><td>N/A</td><td>Mask all acoustic edges to keep glaze out of windway and holes.</td></tr>
-<tr><td>OCA-CUT-010</td><td>Glaze application (exterior only)</td><td>1 application</td><td>N/A</td><td>~0.005-0.010 in per coat; 1-2 coats exterior</td><td>Cone 6 satin or matte glaze</td><td>Avoid waxed regions</td><td>Dip / brush / spray exterior only</td><td>+/-0.005 (visual)</td><td>N/A</td><td>Glaze in voicing window or holes will detune the instrument.</td></tr>
-</table>
-
-<div class="page-break"></div>
-
-<h2>drawing-brief.md</h2>
-
-<p>Manufacturing drawing and technical product sketch brief.</p>
-
-<h1>Ocarina Drawing Brief</h1>
-
-<h2>Required Views</h2>
-
-<ul>
-<li>Top view with body outline, hole layout, hand assignment, and centerline.</li>
-<li>Side view with mouthpiece axis, windway height, labium angle, body thickness, and split line.</li>
-<li>Section through fipple showing windway, labium, window, and chamber connection.</li>
-<li>Section through body showing chamber volume reference, target wall thickness, and mold split.</li>
-<li>Detail view for hole diameters and post-fire tuning allowance.</li>
-<li>Mold view showing plaster parting line, registration keys, pour/drain plan, and cottle clearance.</li>
-</ul>
-
-<h2>Critical Dimensions</h2>
-
-<table>
-<tr><th>Dimension</th><th>Source</th><th>Tolerance intent</th></tr>
-<tr><td>Chamber volume</td><td>Workbook input and water-fill measurement</td><td>Tuning critical</td></tr>
-<tr><td>Voicing window width/height</td><td>Workbook input</td><td>Playability critical</td></tr>
-<tr><td>Windway gap</td><td>CAD/test-piece measurement</td><td>Playability critical</td></tr>
-<tr><td>Labium angle and edge thickness</td><td>CAD/test-piece measurement</td><td>Playability critical</td></tr>
-<tr><td>Wall thickness</td><td>Workbook input and cast measurement</td><td>Tone/drying critical</td></tr>
-<tr><td>Hole diameters</td><td>Workbook chart and tuning log</td><td>Tuning critical</td></tr>
-<tr><td>Master scale factor</td><td>Measured clay shrinkage</td><td>Process critical</td></tr>
-</table>
-
-<h2>Notes For CAD</h2>
-
-<ul>
-<li>Store chamber volume as a named parameter.</li>
-<li>Store shrinkage factor as a named parameter.</li>
-<li>Separate final fired dimensions from master dimensions.</li>
-<li>Mark fipple geometry as prototype-sensitive; do not freeze it until test pieces speak reliably.</li>
-<li>Include a versioned body ID so castings can be tied back to the CAD master.</li>
-</ul>
-
-<div class="page-break"></div>
-
-<h2>assembly-manual.md</h2>
-
-<p>Shop-facing sequence, tools, fixtures, safety, tuning, finishing, and maintenance notes.</p>
-
-<h1>Ocarina Assembly Manual</h1>
-
-<h2>Scope</h2>
-
-<p>This manual covers a slip-cast or press-molded ceramic ocarina based on `docs/Ocarina.xlsx`. It is written for prototype builds where the first goal is repeatable tone and validated tuning, not decorative finish.</p>
-
-<h2>Tools</h2>
-
-<ul>
-<li>CAD package for master design.</li>
-<li>3D printer and sanding/sealing supplies.</li>
-<li>Cottle boards, plaster mixing bucket, scale, mold soap, and clamps.</li>
-<li>Stoneware slip or workable clay body.</li>
-<li>Small hole cutters, drill bits, needle tools, loop tools, ribs, sponge, and fettling knife.</li>
-<li>Chromatic tuner, microphone, calipers, graduated syringe or water-fill vessel.</li>
-<li>Diamond needle files or fine diamond burrs.</li>
-<li>Wax resist, glaze, and kiln access.</li>
-</ul>
-
-<h2>Process</h2>
-
-<p>1. **Set design inputs**</p>
-<p>   - Confirm target ocarina size, chamber volume, voicing window, wall thickness, clay body, and shrinkage.</p>
-<p>   - Create a build ID before CAD begins.</p>
-
-<p>2. **Model the master**</p>
-<p>   - Model the body as a controlled-volume vessel.</p>
-<p>   - Include split-line planning, registration features, and a fipple strategy.</p>
-<p>   - Scale the master by `1/(1 - measured_shrinkage)`.</p>
-
-<p>3. **Print and finish the master**</p>
-<p>   - Print the master with enough wall strength to survive mold making.</p>
-<p>   - Sand layer lines and seal the surface.</p>
-<p>   - Mark datums: centerline, mouthpiece axis, split plane, and hole reference side.</p>
-
-<p>4. **Make the mold**</p>
-<p>   - Apply release to the sealed master and cottle surfaces.</p>
-<p>   - Pour plaster with at least 1.5 inches around the master where practical.</p>
-<p>   - Add registration keys and dry the mold fully before casting.</p>
-
-<p>5. **Cast or press the body**</p>
-<p>   - For slip casting, pour slip, wait for target wall buildup, drain, and demold at leather-hard stage.</p>
-<p>   - For press molding, press even clay slabs into both mold halves and join with scored slip.</p>
-<p>   - Measure sample wall thickness at a noncritical trimmed area.</p>
-
-<p>6. **Cut fipple and holes**</p>
-<p>   - Establish the windway first.</p>
-<p>   - Cut the labium cleanly and test blow before the body fully dries.</p>
-<p>   - Cut finger holes undersized.</p>
-
-<p>7. **Dry slowly**</p>
-<p>   - Dry under plastic until moisture equalizes.</p>
-<p>   - Watch the mouthpiece and seam areas for cracks.</p>
-
-<p>8. **Bisque fire**</p>
-<p>   - Bisque to the clay body&#x27;s recommended schedule.</p>
-<p>   - Measure mass, volume, hole diameters, and frequencies.</p>
-
-<p>9. **Tune after bisque**</p>
-<p>   - Enlarge holes to raise pitch.</p>
-<p>   - Refine the fipple only in small steps.</p>
-<p>   - Record measured frequency and cents error after each change.</p>
-
-<p>10. **Glaze**</p>
-<p>    - Wax resist the windway, labium, holes, and any interior opening.</p>
-<p>    - Keep glaze away from the acoustic edges.</p>
-
-<p>11. **Final fire and validation**</p>
-<p>    - Fire to the chosen glaze schedule.</p>
-<p>    - Re-measure all tuning points.</p>
-<p>    - Save final dimensions and tuning data back into the validation log.</p>
-
-<h2>Failure Modes To Watch</h2>
-
-<ul>
-<li>Weak or no tone: windway too tall, labium too blunt, air jet missing edge.</li>
-<li>Pitch too flat: chamber too large, open area too small, or neck length too long.</li>
-<li>Pitch too sharp: chamber too small, open area too large, or over-filed holes.</li>
-<li>Warped mouthpiece: uneven drying or thin unsupported fipple geometry.</li>
-<li>Glaze-choked note: glaze reduced hole or windway opening.</li>
-</ul>
-
-<div class="page-break"></div>
-
-<h2>validation.csv</h2>
-
-<p>Target/measured values, tolerance, environment, result, and tuning/build action log.</p>
-
-<table>
-<tr><th>build_id</th><th>stage</th><th>date</th><th>clay_body</th><th>shrinkage_expected_pct</th><th>master_scale_factor</th><th>chamber_volume_cm3</th><th>wall_thickness_cm</th><th>voicing_w_cm</th><th>voicing_h_cm</th><th>hole_id</th><th>target_note</th><th>target_freq_hz</th><th>measured_freq_hz</th><th>cents_error</th><th>action</th><th>result</th><th>notes</th></tr>
-<tr><td>OCA-P0</td><td>voicing_tile</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>all_closed</td><td>A4</td><td>440</td><td></td><td></td><td></td><td></td><td>Practice fipple before full body.</td></tr>
-<tr><td>OCA-P1</td><td>greenware</td><td></td><td></td><td></td><td></td><td>130</td><td>0.4</td><td>0.9</td><td>0.5</td><td>all_closed</td><td>A4</td><td>440</td><td></td><td></td><td></td><td></td><td>Measure before drying if possible.</td></tr>
-<tr><td>OCA-P1</td><td>bisque</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>all_closed</td><td>A4</td><td>440</td><td></td><td></td><td></td><td></td><td>First real model check.</td></tr>
-<tr><td>OCA-P1</td><td>glaze_fire</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>all_closed</td><td>A4</td><td>440</td><td></td><td></td><td></td><td></td><td>Record glaze shift.</td></tr>
-<tr><td>OCA-P2</td><td>bisque</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>hole_1</td><td>Bb4</td><td>466.2</td><td></td><td></td><td></td><td></td><td>Start undersized and enlarge gradually.</td></tr>
-<tr><td>OCA-P2</td><td>bisque</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>hole_2</td><td>B4</td><td>493.9</td><td></td><td></td><td></td><td></td><td>Record hole diameter after tuning.</td></tr>
-<tr><td>OCA-P2</td><td>bisque</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>hole_3</td><td>C5</td><td>523.3</td><td></td><td></td><td></td><td></td><td>Check breath pressure sensitivity.</td></tr>
-<tr><td>OCA-P3</td><td>glaze_fire</td><td></td><td></td><td></td><td></td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>hole_12</td><td>A5</td><td>880</td><td></td><td></td><td></td><td></td><td>Full 12-hole validation row.</td></tr>
-</table>
-
-<div class="page-break"></div>
-
-<h2>supplier-rfq.md</h2>
-
-<p>Supplier email/request-for-quote starter.</p>
-
-<h1>Supplier RFQ — Slip-Cast Ceramic Ocarina (OCA-001 family)</h1>
-
-<p>&gt; Use this as a template for outreach to ceramic-supply, plaster, mold-making, and finishing suppliers. Customize the Subject and address fields per recipient.</p>
-
-<p>**Subject:** RFQ — slip-cast ceramic ocarina prototype materials and consumables</p>
-
-<p>Hello,</p>
-
-<p>I&#x27;m a mechanical R&amp;D engineer prototyping a small family of slip-cast ceramic ocarinas (vessel flutes, ~3-4 in long, ~0.16 in / 4 mm wall) and need quotes for the following. The first build is an Alto C 12-hole prototype based on the parametric Helmholtz design table at [tonykoop/ocarina](https://github.com/tonykoop/ocarina).</p>
-
-<h2>Items</h2>
-
-<table>
-<tr><th>#</th><th>Item</th><th>Required spec</th><th>Approx. qty (per prototype run)</th></tr>
-</table>
-<p>|---|---|---|---|</p>
-<table>
-<tr><th>1</th><th>Cone 6 stoneware casting slip</th><th>Mature Cone 6 stoneware slip with **published shrinkage** (X/Y/Z), **water absorption %**, and **firing schedule**. White or light buff body preferred for tone consistency over dark iron-bearing slips.</th><th>1-5 gal</th></tr>
-<tr><td>2</td><td>#1 pottery plaster</td><td>USG #1 Pottery Plaster (or equivalent) suitable for absorbent slip-cast molds. Need **water:plaster ratio**, **set time**, **soluble salt content**.</td><td>10 lb (single mold) — 50 lb (production mold set)</td></tr>
-<tr><td>3</td><td>Mold release / mold soap</td><td>Plaster-compatible parting agent (Murphy&#x27;s-type oil soap or commercial mold soap).</td><td>1 bottle / 16 oz</td></tr>
-<tr><td>4</td><td>Cone 6 exterior glaze</td><td>Food-safe (or durable non-food-safe) satin or matte glaze. Color: TBD per family — likely earth/buff/cream. Glaze must not bridge holes or windway.</td><td>3-5 pints</td></tr>
-<tr><td>5</td><td>Brushable wax resist</td><td>Standard ceramic wax resist for masking voicing window, finger holes, and chamber interior pre-glaze.</td><td>1 small jar / 8 oz</td></tr>
-<tr><td>6</td><td>Diamond needle file set (post-bisque tuning)</td><td>Assorted profiles (round, half-round, taper) ~3-6 mm; resin-bonded acceptable.</td><td>1 set</td></tr>
-<tr><td>7</td><td>Hole cutters / brass tube cutters</td><td>Round cutters from ~0.156 in (4 mm) to ~0.313 in (8 mm) diameter for greenware finger-hole cutting.</td><td>1 set</td></tr>
-<tr><td>8</td><td>Bisque + glaze firing service (if local)</td><td>Cone 06 bisque + Cone 6 glaze fire; small cubic-foot kiln load.</td><td>2 fires per prototype</td></tr>
-<tr><td>9</td><td>(Optional) Master printing/outsource</td><td>If you do high-resolution PLA or resin prints up to ~5 in long with **0.005 in dimensional accuracy**, please quote. We currently print in-house but want a backup.</td><td>1-5 master pairs</td></tr>
-</table>
-
-<h2>What we need in your quote</h2>
-
-<ul>
-<li>**Unit price** and any volume breaks</li>
-<li>**Minimum order quantity**</li>
-<li>**Current stock status** and **lead time**</li>
-<li>**Shipping estimate** to 94566 (Pleasanton, CA) — or local pickup option</li>
-<li>**Material safety data sheet (MSDS)** and **technical data sheet** for items 1, 2, 4, 5</li>
-<li>**Recommended substitutions** for thin-walled (~4 mm) musical instrument bodies</li>
-<li>For item 1: most recent **shrinkage test data** for your batch (we will re-measure on our side, but a baseline matters)</li>
-</ul>
-
-<h2>Acceptance criteria</h2>
-
-<p>The prototypes are measured for X/Y/Z shrinkage, bore/cavity volume after firing, wall-thickness consistency, and acoustic tuning (chromatic tuner, ±25 cents target post-bisque). Slip with unknown or wildly variable shrinkage invalidates the master scale factor (currently `1/(1-0.12) = 1.136`), so reproducibility data is more valuable than headline price.</p>
-
-<p>The repo is a private R&amp;D portfolio repo; we do not need any IP-restricted documents. Public-domain MSDS and supplier spec sheets are sufficient.</p>
-
-<p>Thank you,</p>
-
-<p>Tony Koop</p>
-<p>Mechanical R&amp;D Engineer</p>
-<p>tonykoop@gmail.com</p>
-<p>github.com/tonykoop/ocarina (private; access on request)</p>
-
-<div class="page-break"></div>
-
-<h2>visual-bom-brief.md</h2>
-
-<p>Art direction for an image-forward visual BOM.</p>
-
-<h1>Ocarina Visual BOM Brief</h1>
-
-<h2>Goal</h2>
-
-<p>Create a one-page visual BOM that helps a builder understand the ceramic ocarina workflow from digital master to tuned fired instrument.</p>
-
-<h2>Layout</h2>
-
-<ul>
-<li>Header: &quot;Slip-Cast Ceramic Ocarina - Alto C Prototype&quot;.</li>
-<li>Hero image: finished ocarina or clean CAD render.</li>
-<li>Process strip: CAD master, 3D print, plaster mold, greenware, bisque, tuning, glaze fire.</li>
-<li>BOM table: item number, part/material, quantity, spec, estimated cost, make/buy, image.</li>
-<li>Callout inset: fipple section with windway, labium, and voicing window labels.</li>
-<li>Validation inset: chamber volume, all-closed note, highest tested note, cents error.</li>
-</ul>
-
-<h2>Image Requirements</h2>
-
-<p>Use real shop photos when available. Generated or rendered placeholders should be labeled as placeholders until replaced with:</p>
-
-<ul>
-<li>Master print photo.</li>
-<li>Plaster mold photo.</li>
-<li>Greenware body photo.</li>
-<li>Fipple close-up.</li>
-<li>Final fired instrument.</li>
-<li>Tuning tool/photo of measurement setup.</li>
-</ul>
-
-<div class="page-break"></div>
-
-<h2>wolfram-starter.wl</h2>
-
-<p>Wolfram starter for physics, optimization, visualization, and validation.</p>
-
-<pre><code>
-(* Ocarina Helmholtz notebook starter *)
-
-ClearAll[&quot;Global`*&quot;];
-
-c = 34300; (* cm/s at about 20 C *)
-targetA4 = 440;
-volumeCm3 = 130;
-wallCm = 0.4;
-windowWcm = 0.9;
-windowHcm = 0.5;
-
-voicingAreaCm2[w_, h_] := w*h;
-endCorrectionCm[area_] := 0.6*Sqrt[area/Pi];
-helmholtzHz[area_, volume_, neckLength_] :=
-  (c/(2*Pi))*Sqrt[area/(volume*neckLength)];
-centsError[measured_, target_] := 1200*Log[2, measured/target];
-
-baseArea = voicingAreaCm2[windowWcm, windowHcm];
-baseNeck = wallCm + endCorrectionCm[baseArea];
-baseFreq = helmholtzHz[baseArea, volumeCm3, baseNeck];
-
-holeDiameterMmToAreaCm2[d_] := Pi*(d/20)^2;
-targetFreq[midi_] := 440*2^((midi - 69)/12);
-areaForFrequency[f_, volume_, neckLength_] :=
-  volume*neckLength*(2*Pi*f/c)^2;
-
-(* Candidate cumulative area table for A4 to A5. *)
-notes = {
-  {&quot;A4&quot;, 69}, {&quot;Bb4&quot;, 70}, {&quot;B4&quot;, 71}, {&quot;C5&quot;, 72},
-  {&quot;C#5&quot;, 73}, {&quot;D5&quot;, 74}, {&quot;D#5&quot;, 75}, {&quot;E5&quot;, 76},
-  {&quot;F5&quot;, 77}, {&quot;F#5&quot;, 78}, {&quot;G5&quot;, 79}, {&quot;G#5&quot;, 80}, {&quot;A5&quot;, 81}
-};
-
-areaTable = Table[
-  With[{freq = targetFreq[midi]},
-    {name, freq, areaForFrequency[freq, volumeCm3, baseNeck]}
-  ],
-  { {name, midi}, notes}
-];
-
-areaTable // TableForm
-</code></pre>
-
-<div class="page-break"></div>
-
-<h2>README.md</h2>
-
-<p>Project artifact.</p>
-
-<h1>Ocarina</h1>
-
-<p>Engineering documentation and parametric design table for the ocarina — the vessel flute family in ceramic, wood, and 3D-printed forms.</p>
-
-<p>Part of the [tonykoop/instrument-maker](https://github.com/tonykoop/instrument-maker) catalogue.</p>
-
-<p>&gt; CAD renders, Wolfram notebook recordings, and a finalized build method are forthcoming.</p>
+<p>Tier 3 production files (.step, validated .stl, .dxf for laser, .gcode for CNC) are **out of scope until the first OCA-P1 prototype validates voicing geometry**. See the README&#x27;s status table and [`design.md`](design.md) &quot;Open Assumptions&quot; for the deferral reasoning.</p>
 
 <h2>License</h2>
 
-<p>[CC BY 4.0](LICENSE) — see LICENSE for details.</p>
+<p>Released under [CC-BY 4.0](LICENSE) — original written content, design files, photographs, and physics work in this repository are mine, free to reuse and adapt with credit.</p>
 </body></html>

@@ -1,6 +1,6 @@
 {
-  "packet_dir": "/sessions/charming-bold-fermat/mnt/GitHub/ocarina",
-  "title": "Slip-Cast Ceramic Ocarina (OCA-001) \u2014 v3 Smoke Test",
+  "packet_dir": "C:\\Users\\Tony\\Documents\\GitHub\\ocarina",
+  "title": "Slip-Cast Ceramic Ocarina (OCA-001) \u2014 v3.1 smoke test",
   "generated": "2026-05-02",
   "files_included": [
     "design.md",
@@ -13,16 +13,14 @@
     "supplier-rfq.md",
     "visual-bom-brief.md",
     "wolfram-starter.wl",
-    "README.md",
-    "capstone-deck.md",
-    "print-packet.md"
+    "README.md"
   ],
   "outputs": {
-    "capstone_deck_markdown": "/sessions/charming-bold-fermat/mnt/GitHub/ocarina/capstone-deck.md",
-    "capstone_deck_pptx": "/sessions/charming-bold-fermat/mnt/GitHub/ocarina/capstone-deck.pptx",
-    "print_packet_markdown": "/sessions/charming-bold-fermat/mnt/GitHub/ocarina/print-packet.md",
-    "print_packet_html": "/sessions/charming-bold-fermat/mnt/GitHub/ocarina/print-packet.html",
-    "print_packet_pdf": "/sessions/charming-bold-fermat/mnt/GitHub/ocarina/print-packet.pdf"
+    "capstone_deck_markdown": "C:\\Users\\Tony\\Documents\\GitHub\\ocarina\\capstone-deck.md",
+    "capstone_deck_pptx": "C:\\Users\\Tony\\Documents\\GitHub\\ocarina\\capstone-deck.pptx",
+    "print_packet_markdown": "C:\\Users\\Tony\\Documents\\GitHub\\ocarina\\print-packet.md",
+    "print_packet_html": "C:\\Users\\Tony\\Documents\\GitHub\\ocarina\\print-packet.html",
+    "print_packet_pdf": "C:\\Users\\Tony\\Documents\\GitHub\\ocarina\\print-packet.pdf"
   },
   "notes": [
     "PPTX is created when python-pptx is installed.",

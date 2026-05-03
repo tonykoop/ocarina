@@ -1,4 +1,4 @@
-# Slip-Cast Ceramic Ocarina (OCA-001) — v3 Smoke Test
+# Slip-Cast Ceramic Ocarina (OCA-001) — v3.1 smoke test
 - Musical instrument documentation capstone
 - Build packet: ocarina
 - Generated: 2026-05-02
@@ -19,7 +19,7 @@ _Speaker notes:_ Read design.md before committing to dimensions or sourcing deci
 f = c/(2*pi) * sqrt(A_open/(V_chamber * L_eff))
 ```
 
-_Speaker notes:_ Governing equation extracted verbatim from design.md. Apply empirical corrections (NAF K2, scale offsets) only where the model permits — see references/acoustic-models.md.
+_Speaker notes:_ Governing equations extracted verbatim from design.md. Apply empirical corrections (NAF K2, scale offsets) only where the model permits — see references/acoustic-models.md.
 
 ---
 
@@ -71,20 +71,26 @@ _Speaker notes:_ Governing equation extracted verbatim from design.md. Apply emp
 - cnc/ holds CAM, toolpaths, setup sheets, dry-run notes.
 - drawings/ holds PDFs, SVGs, DXFs, drawing exports.
 
-![drawing](drawings/ocarina-body-section.svg)
-![drawing](drawings/ocarina-hole-layout.svg)
-![drawing](drawings/ocarina-mold-schematic.svg)
+![drawing](drawings\ocarina-body-section.svg)
+![drawing](drawings\ocarina-hole-layout.svg)
+![drawing](drawings\ocarina-mold-schematic.svg)
 
 ---
 
 # Images And Screenshots
-- images/exploded-view-concept.png
-- images/hero-concept.png
-- images/mold-cross-section-concept.png
+- images\exploded-view-concept.png
+- images\exploded-view-concept.svg
+- images\hero-concept.png
+- images\hero-concept.svg
+- images\mold-cross-section-concept.png
+- images\mold-cross-section-concept.svg
 
-![image](images/exploded-view-concept.png)
-![image](images/hero-concept.png)
-![image](images/mold-cross-section-concept.png)
+![image](images\exploded-view-concept.png)
+![image](images\exploded-view-concept.svg)
+![image](images\hero-concept.png)
+![image](images\hero-concept.svg)
+![image](images\mold-cross-section-concept.png)
+![image](images\mold-cross-section-concept.svg)
 
 ---
 
