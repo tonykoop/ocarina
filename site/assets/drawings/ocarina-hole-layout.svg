@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="800" height="500" fill="white" stroke="#222" stroke-width="1"/>
+  <rect x="0" y="0" width="800" height="36" fill="#1F3A68"/>
+  <text x="12" y="24" fill="white" font-size="16" font-weight="bold">Ocarina — 12-Hole Layout (top view, fired)</text>
+  <text x="788" y="24" fill="white" font-size="10" text-anchor="end">OCA-DRW-002 | REV-A | 2026-05-02 | Units: inches | Scale 2:1</text>
+
+  <!-- Body silhouette (top view) -->
+  <path d="M 200 250
+           C 200 130, 540 130, 600 240
+           L 720 250
+           L 600 260
+           C 540 370, 200 370, 200 250 Z"
+        fill="#FCFBF6" stroke="#222" stroke-width="2"/>
+
+  <!-- Voicing window -->
+  <rect x="555" y="241" width="40" height="18" fill="#1F3A68" opacity="0.3" stroke="#1F3A68"/>
+  <text x="575" y="232" font-size="9" fill="#1F3A68" text-anchor="middle">voicing</text>
+
+  <!-- 12 finger holes — left thumb / left hand on left lobe, right hand on right lobe.
+       Holes T1-T2 are thumb (back side, shown dashed); F1-F4 left hand top, F5-F8 right hand top, B1/B2 right thumb (back).
+       Diameters per design table: range 0.16 - 0.31 in starting undersized. -->
+
+  <!-- LEFT HAND (top-side; closer to mouthpiece is right side of svg by convention here we use ergonomic mirroring) -->
+  <!-- F1 left index -->
+  <circle cx="350" cy="195" r="9"  fill="#222"/>
+  <text x="350" y="178" font-size="9" text-anchor="middle">F1 (Bb4)</text>
+  <text x="350" y="217" font-size="8" text-anchor="middle" fill="#445577">Ø 0.236</text>
+
+  <circle cx="380" cy="180" r="10" fill="#222"/>
+  <text x="380" y="163" font-size="9" text-anchor="middle">F2 (B4)</text>
+  <text x="380" y="204" font-size="8" text-anchor="middle" fill="#445577">Ø 0.260</text>
+
+  <circle cx="412" cy="172" r="10" fill="#222"/>
+  <text x="412" y="155" font-size="9" text-anchor="middle">F3 (C5)</text>
+  <text x="412" y="194" font-size="8" text-anchor="middle" fill="#445577">Ø 0.276</text>
+
+  <circle cx="442" cy="170" r="11" fill="#222"/>
+  <text x="442" y="152" font-size="9" text-anchor="middle">F4 (D5)</text>
+  <text x="442" y="194" font-size="8" text-anchor="middle" fill="#445577">Ø 0.291</text>
+
+  <!-- RIGHT HAND -->
+  <circle cx="282" cy="200" r="9"  fill="#222"/>
+  <text x="282" y="183" font-size="9" text-anchor="middle">F5 (E5)</text>
+  <text x="282" y="222" font-size="8" text-anchor="middle" fill="#445577">Ø 0.236</text>
+
+  <circle cx="252" cy="218" r="9"  fill="#222"/>
+  <text x="252" y="201" font-size="9" text-anchor="middle">F6 (F5)</text>
+  <text x="252" y="240" font-size="8" text-anchor="middle" fill="#445577">Ø 0.236</text>
+
+  <circle cx="232" cy="252" r="8"  fill="#222"/>
+  <text x="232" y="234" font-size="9" text-anchor="middle">F7 (G5)</text>
+  <text x="232" y="273" font-size="8" text-anchor="middle" fill="#445577">Ø 0.197</text>
+
+  <circle cx="252" cy="285" r="8"  fill="#222"/>
+  <text x="252" y="267" font-size="9" text-anchor="middle">F8 (A5)</text>
+  <text x="252" y="307" font-size="8" text-anchor="middle" fill="#445577">Ø 0.197</text>
+
+  <!-- Subholes / sub-tones (small) -->
+  <circle cx="320" cy="318" r="6" fill="#222"/>
+  <text x="320" y="335" font-size="8" text-anchor="middle">F9 (sub C#5)</text>
+
+  <circle cx="380" cy="328" r="6" fill="#222"/>
+  <text x="380" y="345" font-size="8" text-anchor="middle">F10 (sub D#5)</text>
+
+  <!-- Thumb holes (back, dashed) -->
+  <circle cx="430" cy="318" r="7" fill="none" stroke="#222" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <text x="430" y="335" font-size="8" text-anchor="middle">T1 thumb (back)</text>
+
+  <circle cx="490" cy="295" r="7" fill="none" stroke="#222" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <text x="490" y="312" font-size="8" text-anchor="middle">T2 thumb (back)</text>
+
+  <!-- Mouthpiece -->
+  <rect x="690" y="247" width="40" height="6" fill="#1F3A68"/>
+
+  <!-- Notes -->
+  <rect x="20" y="395" width="760" height="100" fill="#E8EEF8" stroke="#888"/>
+  <text x="28" y="412" font-size="10" font-weight="bold" fill="#1F3A68">FINGERING / TUNING NOTES</text>
+  <text x="28" y="430" font-size="10" fill="#222">(1) Diameters are STARTING values. Cut all 12 holes undersized at leather-hard. Tune by enlarging post-bisque with diamond needle files.</text>
+  <text x="28" y="446" font-size="10" fill="#222">(2) Helmholtz model: f = c/(2π) · √(A_open/(V_chamber · L_eff)).  Cumulative open-area drives pitch — equivalent areas are cross-fingerable.</text>
+  <text x="28" y="462" font-size="10" fill="#222">(3) Hole positions are ergonomic, NOT acoustic. Move holes to fit the player's hand without affecting tuning (so long as cumulative area is preserved).</text>
+  <text x="28" y="478" font-size="10" fill="#222">(4) T1, T2 (thumb holes, dashed) live on the OPPOSITE face. Shown here as call-outs; see ocarina-body-section.svg for the back-side view.</text>
+</svg>

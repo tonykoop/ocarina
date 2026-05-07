@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="800" height="500" fill="white" stroke="#222" stroke-width="1"/>
+  <rect x="0" y="0" width="800" height="36" fill="#1F3A68"/>
+  <text x="12" y="24" fill="white" font-size="16" font-weight="bold">Ocarina — Two-Piece Plaster Mold Schematic</text>
+  <text x="788" y="24" fill="white" font-size="10" text-anchor="end">OCA-DRW-003 | REV-A | 2026-05-02 | Units: inches | Scale 1:1</text>
+
+  <!-- Cottle / mold box -->
+  <rect x="160" y="100" width="480" height="320" fill="#FCFBF6" stroke="#222" stroke-width="2"/>
+
+  <!-- Plaster body (split halves) -->
+  <rect x="180" y="120" width="440" height="140" fill="#E8EEF8" stroke="#888" stroke-width="1.5"/>
+  <text x="400" y="145" font-size="11" font-weight="bold" text-anchor="middle" fill="#445577">Plaster mold — TOP HALF</text>
+
+  <rect x="180" y="265" width="440" height="140" fill="#E8EEF8" stroke="#888" stroke-width="1.5"/>
+  <text x="400" y="395" font-size="11" font-weight="bold" text-anchor="middle" fill="#445577">Plaster mold — BOTTOM HALF</text>
+
+  <!-- Master cavity (lentil profile, embedded in plaster) -->
+  <path d="M 280 260
+           C 280 195, 480 195, 510 252
+           L 555 260
+           L 510 268
+           C 480 325, 280 325, 280 260 Z"
+        fill="#FFFAF0" stroke="#C0392B" stroke-width="2"/>
+  <text x="395" y="263" font-size="11" text-anchor="middle" fill="#C0392B" font-weight="bold">master cavity (printed body, scaled 1.136×)</text>
+
+  <!-- Split line -->
+  <line x1="180" y1="260" x2="620" y2="260" stroke="#C0392B" stroke-width="1.2" stroke-dasharray="6 3"/>
+  <text x="630" y="264" font-size="10" fill="#C0392B">split line</text>
+
+  <!-- Registration keys -->
+  <circle cx="220" cy="260" r="6" fill="#1F3A68"/>
+  <circle cx="580" cy="260" r="6" fill="#1F3A68"/>
+  <text x="220" y="290" font-size="9" text-anchor="middle" fill="#1F3A68">key</text>
+  <text x="580" y="290" font-size="9" text-anchor="middle" fill="#1F3A68">key</text>
+
+  <!-- Pour spout -->
+  <polygon points="555,260 590,150 605,150 575,260" fill="#FFFAF0" stroke="#222"/>
+  <text x="595" y="135" font-size="10" fill="#222">slip pour</text>
+
+  <!-- Drain hole -->
+  <line x1="555" y1="260" x2="555" y2="430" stroke="#888" stroke-dasharray="3 2"/>
+  <text x="555" y="450" font-size="9" text-anchor="middle" fill="#888">drain (after wall buildup)</text>
+
+  <!-- Plaster thickness callout -->
+  <line x1="170" y1="120" x2="170" y2="260" stroke="#222" stroke-width="0.8"/>
+  <line x1="165" y1="120" x2="175" y2="120" stroke="#222"/>
+  <line x1="165" y1="260" x2="175" y2="260" stroke="#222"/>
+  <text x="135" y="195" font-size="10" text-anchor="middle" transform="rotate(-90 135 195)">≥ 1.50 in plaster (top)</text>
+
+  <line x1="170" y1="260" x2="170" y2="405" stroke="#222" stroke-width="0.8"/>
+  <line x1="165" y1="405" x2="175" y2="405" stroke="#222"/>
+  <text x="135" y="335" font-size="10" text-anchor="middle" transform="rotate(-90 135 335)">≥ 1.50 in plaster (bottom)</text>
+
+  <!-- Dimensions -->
+  <line x1="180" y1="80" x2="620" y2="80" stroke="#222" stroke-width="0.8"/>
+  <line x1="180" y1="75" x2="180" y2="85" stroke="#222"/>
+  <line x1="620" y1="75" x2="620" y2="85" stroke="#222"/>
+  <text x="400" y="73" font-size="10" text-anchor="middle">cottle interior = 7.50 in</text>
+
+  <!-- Notes -->
+  <rect x="20" y="455" width="760" height="40" fill="#E8EEF8" stroke="#888"/>
+  <text x="28" y="471" font-size="10" fill="#222">NOTES: (1) Plaster mix at 73:100 water:plaster (by weight), 2-min slake, gentle pour to avoid voids around master.  (2) Apply mold soap to sealed master + cottle face before each pour.</text>
+  <text x="28" y="485" font-size="10" fill="#222">         (3) Demold master after 1 hr; dry both mold halves min 24 hr before first slip cast.  (4) Voicing window cut at LEATHER-HARD stage, NOT in the mold.</text>
+</svg>
