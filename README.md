@@ -1,6 +1,12 @@
 # Ocarina — Slip-Cast Ceramic Vessel-Flute Family
 
-> *Engineering documentation for a 3D-printed-master, plaster-mold, cone-6-stoneware slip-cast ocarina family — from Helmholtz physics through the parametric design table to a manufacturable build packet.*
+> *Engineering documentation for a 3D-printed-master, plaster-mold, cone-6-stoneware slip-cast ocarina family — from Helmholtz physics through the parametric design table to a V5 candidate build packet.*
+
+Current status: **V5 explorer/build-packet candidate, not build-ready**. The
+repo has a parametric design table, OpenSCAD starter, SVG drawing previews, and
+concept images, but the build-controlling values for chamber volume, voicing
+geometry, clay shrinkage, and tuning still need physical measurement before
+they can be treated as validated fabrication authority.
 
 ![Hero — AI-generated concept render of a slip-cast Alto C 12-hole ocarina (placeholder until first prototype is photographed)](images/hero-concept.png)
 *AI-generated concept render — replace with photo of first OCA-P1 prototype after firing. Manufacturing dimensions come from the parametric design table, not from this image.*
@@ -11,7 +17,7 @@ Engineering documentation for a small family of slip-cast ceramic ocarinas, buil
 
 1. **A parametric design table** ([`ocarina-design-table.xlsx`](ocarina-design-table.xlsx)) — chamber volume, voicing-window geometry, wall thickness, shrinkage, and a 12-hole fingering chart with formula-driven hole-area / cumulative-area / frequency columns. Master scale factor `1/(1 - measured_shrinkage)` is parameterized; for a 12% shrinkage assumption, the master scales at ~1.136×.
 2. **A full build packet** ([`design.md`](design.md), [`bom.csv`](bom.csv), [`sourcing.csv`](sourcing.csv), [`cut-list.csv`](cut-list.csv), [`validation.csv`](validation.csv), [`assembly-manual.md`](assembly-manual.md), [`supplier-rfq.md`](supplier-rfq.md), [`drawing-brief.md`](drawing-brief.md), [`visual-bom-brief.md`](visual-bom-brief.md), [`wolfram-starter.wl`](wolfram-starter.wl)) — the same scaffold used across the [`tonykoop`](https://github.com/tonykoop) musical-instrument catalogue.
-3. **A capstone slide deck and printable shop packet** ([`capstone-deck.pptx`](capstone-deck.pptx), [`print-packet.pdf`](print-packet.pdf)) — recruiter-facing artifacts that show the design is documented well enough that someone else could build it.
+3. **A capstone slide deck and printable shop packet** ([`capstone-deck.pptx`](capstone-deck.pptx), [`print-packet.pdf`](print-packet.pdf)) — recruiter-facing artifacts that show the design record, authority boundaries, and next validation gates.
 
 Sister repos: [`gemshorn`](https://github.com/tonykoop/gemshorn) (where slip-cast horn-flute mold workflow was established and is the closest comparable build packet), [`transverse-flute`](https://github.com/tonykoop/transverse-flute) (slip-cast workflow at larger scale), [`flutes`](https://github.com/tonykoop/flutes) (the NAF / open-pipe family with empirical K2 bore corrections), and [`instrument-maker`](https://github.com/tonykoop/instrument-maker) (the agent skill that generated this packet).
 
@@ -26,6 +32,24 @@ f = c/(2π) · √( A_open / (V_chamber · L_eff) )
 where `A_open` is the cumulative open hole area, `V_chamber` is the closed cavity volume, and `L_eff = wall_thickness + 0.6·√(A_open/π)` is the effective neck length with a flanged-port end correction. The full physics treatment is in [`design.md`](design.md) (Governing Model section) and in [`wolfram-starter.wl`](wolfram-starter.wl).
 
 The practical consequence is that ocarina hole positions are an **ergonomic** problem (where the fingers reach), not an acoustic one (where the standing wave wants the holes). This makes the ocarina an unusually clean parametric-design target — change the chamber volume, the whole register transposes; change the cumulative area, the fingering chart re-tunes — but it puts an unusually heavy burden on **fipple/voicing geometry**, which the Helmholtz model says nothing about and which has to be tuned empirically.
+
+## V5 authority map
+
+The current fabrication authority is limited to the design table and OpenSCAD
+starter as **candidate geometry**, not validated production geometry:
+
+- `ocarina-design-table.xlsx` carries the inferred workbook values for chamber
+  volume, wall thickness, voicing-window size, shrinkage assumption, and hole
+  schedule.
+- `cad/ocarina_master.scad` is a parametric master-shape starter derived from
+  those values. It does not validate the windway, labium, or final fired pitch.
+- `family-spec.csv` records the vessel-flute scaling and authority status for
+  chamber volume, voicing geometry, shrinkage, and tuning.
+- `visual-output-register.csv` marks the CAD/design table as candidate
+  fabrication authority and labels SVG/image outputs as previews or concepts.
+- `cad/mcp-session-log.md` records that no MCP-generated V5 artifacts were
+  created in this lane; future OpenSCAD/Blender/Illustrator/Photoshop sessions
+  should append there.
 
 ## Family targets
 
@@ -93,8 +117,9 @@ ocarina/
 | Wolfram physics starter | ✓ done |
 | Capstone deck + print packet | ✓ done (auto-generated, recruiter-facing) |
 | Concept renders (AI-generated, captioned) | ✓ done (placeholders) |
-| Parametric CAD (OpenSCAD starter) | ✓ done (master-shape only; voicing detail by hand) |
-| Dimensioned drawings (SVG) | ✓ done (section + hole layout) |
+| Parametric CAD (OpenSCAD starter) | candidate only (master-shape; voicing detail by hand) |
+| Dimensioned drawings (SVG) | derived preview only until reviewed against CAD/design-table authority |
+| V5 authority/register files | added: `family-spec.csv`, `visual-output-register.csv`, `validation-loop.csv`, `cad/mcp-session-log.md` |
 | Production-ready CAD (.step / .stl) | **deferred** — generated after empirical voicing validation in build queue |
 | Mold turning / CNC toolpaths | **deferred** — slip-cast workflow uses 3D-printed master, not turned wooden master |
 | First OCA-P1 prototype build | forthcoming (Bambu + kiln pipeline) |
