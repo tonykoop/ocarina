@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slip-Cast Ceramic Ocarina (OCA-001) — v3.1 smoke test</title>
+<title>Slip-Cast Ceramic Ocarina (OCA-001) — V5 explorer candidate</title>
 
 <!-- model-viewer web component (CDN). DRACO decoder is auto-loaded from
      gstatic.com on first decode of a compressed .glb. -->
@@ -377,16 +377,16 @@ mark.hit{background:var(--gold);color:var(--ink);
 <article class="status-card">
   <div class="status-row">
     <div class="status-label">Build target</div>
-    <div class="status-val"><span class="strong">OCARINA</span> · Slip-Cast Ceramic Ocarina (OCA-001) — v3.1 smoke test</div>
+    <div class="status-val"><span class="strong">OCARINA</span> · Slip-Cast Ceramic Ocarina (OCA-001) — V5 explorer candidate</div>
   </div>
 
   <div class="status-row">
     <div class="status-label">Status</div>
-    <div class="status-val"><span class="pill pill-private">Private review</span>&nbsp;&nbsp;</div>
+    <div class="status-val"><span class="pill pill-gate">V5 candidate</span>&nbsp;&nbsp;<span class="pill pill-block">Not build-ready</span></div>
   </div>
   <div class="status-row">
     <div class="status-label">Family</div>
-    <div class="status-val"><span class="muted">(single build target — no family declared)</span></div>
+    <div class="status-val"><span class="muted">Single vessel-flute target; Helmholtz model recorded in <code>family-spec.csv</code> with measurement-required caveats.</span></div>
   </div>
   <div class="status-row">
     <div class="status-label">Release gates</div>
@@ -395,9 +395,13 @@ mark.hit{background:var(--gold);color:var(--ink);
 </article>
 
 <section id="overview" data-toc="Overview" data-toc-group="Project">
-  <h1><span class="eyebrow">01 · Overview</span>Slip-Cast Ceramic Ocarina (OCA-001) — v3.1 smoke test</h1>
+  <h1><span class="eyebrow">01 · Overview</span>Slip-Cast Ceramic Ocarina (OCA-001) — V5 explorer candidate</h1>
 
   <p>This explorer is the studio-facing build packet for <strong>ocarina</strong>. Sections below cover the Helmholtz vessel-flute model, slip-cast build packet, BOM, validation log, Wolfram scaffold, risks, and capstone deliverables.</p>
+  <div class="callout warn">
+    <span class="lab">Authority boundary</span>
+    <p>Current fabrication authority is candidate-only. Chamber volume, voicing window, clay shrinkage, and tuning are inferred from the workbook/OpenSCAD starter or marked measurement-required until physical prototypes are measured.</p>
+  </div>
 
 
 </section>
@@ -409,6 +413,9 @@ mark.hit{background:var(--gold);color:var(--ink);
 <div class="file"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">cut-list.csv</span><span class="file-type">CSV</span><span class="file-desc">Dimension or registry table</span><span class="file-actions"><a href="cut-list.csv" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-csv="cut-list.csv"></div></div>
 <div class="file"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">sourcing.csv</span><span class="file-type">CSV</span><span class="file-desc">Dimension or registry table</span><span class="file-actions"><a href="sourcing.csv" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-csv="sourcing.csv"></div></div>
 <div class="file"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">validation.csv</span><span class="file-type">CSV</span><span class="file-desc">Dimension or registry table</span><span class="file-actions"><a href="validation.csv" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-csv="validation.csv"></div></div>
+<div class="file"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">family-spec.csv</span><span class="file-type">CSV</span><span class="file-desc">Vessel-flute model and authority ledger</span><span class="file-actions"><a href="family-spec.csv" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-csv="family-spec.csv"></div></div>
+<div class="file"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">visual-output-register.csv</span><span class="file-type">CSV</span><span class="file-desc">CAD/design-table vs concept visual authority</span><span class="file-actions"><a href="visual-output-register.csv" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-csv="visual-output-register.csv"></div></div>
+<div class="file"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">validation-loop.csv</span><span class="file-type">CSV</span><span class="file-desc">Empirical close-the-loop checks</span><span class="file-actions"><a href="validation-loop.csv" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-csv="validation-loop.csv"></div></div>
 <div class="cards"><div class="card"><div class="k">Workbook</div><div class="v">ocarina-design-table.xlsx<span class="sub">ocarina-design-table.xlsx</span></div><p style="margin-top:8px"><a href="ocarina-design-table.xlsx" target="_blank" rel="noopener">Open</a></p></div></div>
 </section>
 
@@ -433,11 +440,13 @@ mark.hit{background:var(--gold);color:var(--ink);
   <h1><span class="eyebrow">· CNC &amp; Drawings Brief</span>CNC &amp; Drawings Brief</h1>
 <div class="file open"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">drawing-brief.md</span><span class="file-type">MD</span><span class="file-desc">What needs to be drawn</span><span class="file-actions"><a href="drawing-brief.md" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-md="drawing-brief.md"></div></div>
 <div class="file"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">visual-bom-brief.md</span><span class="file-type">MD</span><span class="file-desc">Visual-BOM shot list</span><span class="file-actions"><a href="visual-bom-brief.md" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-md="visual-bom-brief.md"></div></div>
+<div class="file"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">cad/mcp-session-log.md</span><span class="file-type">MD</span><span class="file-desc">V5 provenance log</span><span class="file-actions"><a href="cad/mcp-session-log.md" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-md="cad/mcp-session-log.md"></div></div>
 </section>
 
 <section id="validation" data-toc="Validation Gates" data-toc-group="Validate">
   <h1><span class="eyebrow">· Validation Gates</span>Validation Gates</h1>
 <div class="file open"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">validation.csv</span><span class="file-type">CSV</span><span class="file-desc">Checks · methods · tolerances · gates</span><span class="file-actions"><a href="validation.csv" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-csv="validation.csv"></div></div>
+<div class="file open"><div class="file-head" onclick="toggleFile(this)"><span class="icon">▶</span><span class="file-name">validation-loop.csv</span><span class="file-type">CSV</span><span class="file-desc">Prototype measurement loop</span><span class="file-actions"><a href="validation-loop.csv" target="_blank" rel="noopener">Open</a></span></div><div class="file-body" data-csv="validation-loop.csv"></div></div>
 </section>
 
 <section id="run-it" data-toc="Run It — Wolfram Cloud" data-toc-group="Validate">
@@ -464,7 +473,7 @@ mark.hit{background:var(--gold);color:var(--ink);
 
 <section id="capstone" data-toc="Capstone Deliverables" data-toc-group="Publish">
   <h1><span class="eyebrow">· Capstone deliverables</span>Deck · print packet · explorer</h1>
-  <div class="cards"><div class="card"><div class="k">Slide deck</div><div class="v">capstone-deck.pptx<span class="sub">Workbook → design → BOM → validation → next actions</span></div><p style="margin-top:8px"><a href="capstone-deck.pptx">Open PPTX</a></p></div><div class="card"><div class="k">Print packet</div><div class="v">print-packet.pdf<span class="sub">Letter-size print, take-to-bench reference</span></div><p style="margin-top:8px"><a href="print-packet.pdf">Open PDF</a> · <a href="print-packet.html">Open HTML</a></p></div><div class="card"><div class="k">Manifest</div><div class="v">capstone-manifest.json<span class="sub">Artifact inventory; release gates; required-before-public list</span></div><p style="margin-top:8px"><a href="capstone-manifest.json">Open JSON</a></p></div><div class="card"><div class="k">Studio explorer</div><div class="v">explorer.html<span class="sub">This document. Generated by instrument-maker/scripts/generate_explorer.py.</span></div><p style="margin-top:8px"><a href="explorer.html">Reload</a></p></div></div>
+  <div class="cards"><div class="card"><div class="k">Slide deck</div><div class="v">capstone-deck.pptx<span class="sub">Workbook -> design -> BOM -> validation -> next actions</span></div><p style="margin-top:8px"><a href="capstone-deck.pptx">Open PPTX</a></p></div><div class="card"><div class="k">Print packet</div><div class="v">print-packet.pdf<span class="sub">Letter-size print, take-to-bench reference</span></div><p style="margin-top:8px"><a href="print-packet.pdf">Open PDF</a> · <a href="print-packet.html">Open HTML</a></p></div><div class="card"><div class="k">Manifest</div><div class="v">capstone-manifest.json<span class="sub">Artifact inventory; release gates; required-before-public list</span></div><p style="margin-top:8px"><a href="capstone-manifest.json">Open JSON</a></p></div><div class="card"><div class="k">Studio explorer</div><div class="v">explorer.html<span class="sub">This document with V5 authority caveats.</span></div><p style="margin-top:8px"><a href="explorer.html">Reload</a> · <a href="explorer.generated.html">Summary</a></p></div></div>
 </section>
 
 <section id="rfq" data-toc="Supplier RFQ" data-toc-group="Publish">
