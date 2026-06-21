@@ -69,5 +69,23 @@
     "All paths are repository-relative.",
     "Generated images are concept/support assets only and are not fabrication authority.",
     "The installed acoustic-law validator does not expose a Helmholtz vessel-flute vocabulary value, so family-spec.csv uses measurement-required planning rows and keeps the Helmholtz caveat in prose."
-  ]
+  ],
+  "engineering": {
+    "wolfram": [
+      {
+        "source_file": "woodwind/ocarina/docs/ceramic-vessel-lab/ocarina-ceramic-vessel-lab-starter.wl",
+        "cloud_path": "Musical_Instruments/woodwinds/ocarina/ocarina-ceramic-vessel-lab-starter.wl",
+        "cloud_url": "https://www.wolframcloud.com/obj/wrfcoin/Musical_Instruments/woodwinds/ocarina/ocarina-ceramic-vessel-lab-starter.wl",
+        "permission": "Public-Execute",
+        "kind": "acoustics-starter"
+      },
+      {
+        "source_file": "woodwind/ocarina/ocarina-starter.wl",
+        "cloud_path": "Musical_Instruments/woodwinds/ocarina/ocarina-starter.wl",
+        "cloud_url": "https://www.wolframcloud.com/obj/wrfcoin/Musical_Instruments/woodwinds/ocarina/ocarina-starter.wl",
+        "permission": "Public-Execute",
+        "kind": "acoustics-starter"
+      }
+    ]
+  }
 }
