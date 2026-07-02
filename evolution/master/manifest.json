@@ -1,0 +1,34 @@
+{
+  "product": "ocarina",
+  "pipeline": "studiopipeline:evolution-pipeline",
+  "stage": "0-intake",
+  "master_revision": "rev-A (pre-commit intake, 2026-07-01)",
+  "generated": "2026-07-01",
+  "cad_masters": [
+    {
+      "path": "cad/ocarina_master.scad",
+      "format": "openscad-source",
+      "sha256": "dbe5ac36bc03ff687ec57d1da0b3d720a6569ada6bf7fe08b9159e2718f1e306",
+      "authority": "pending_measurement",
+      "lossy": false,
+      "notes": "Parametric master-shape starter; renders clean in OpenSCAD. Does not validate windway/labium or final fired pitch. Pending measured chamber volume/voicing/shrinkage/tuning."
+    },
+    {
+      "path": "ocarina-starter.wl",
+      "format": "wolfram-source",
+      "sha256": "3d9cd349c5fdb114bf34b19dc8186fb82692fbf64ddd1e06f653616fc6391a96",
+      "authority": "derived_preview",
+      "lossy": false,
+      "notes": "Helmholtz physics starter; source-only (not executed). L2 evidence."
+    },
+    {
+      "path": "ocarina-design-table.xlsx",
+      "format": "design-table",
+      "sha256": "442e99759ec02864dfd48abc05ec13afdeaa3071adc5c351f21350051b5849fa",
+      "authority": "fabrication",
+      "lossy": false,
+      "notes": "Parametric workbook; current planning authority. Chamber volume, voicing geometry, shrinkage, and tuning are measurement-gated until OCA-P1 validation."
+    }
+  ],
+  "notes": "OpenSCAD source + design table are the current masters; no STEP export yet (production .step/.stl deferred until first OCA-P1 prototype validates voicing geometry; SolidWorks export is Windows-side, out of scope). Gate A (Alpha workspace compile) not yet run."
+}
