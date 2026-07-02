@@ -2,6 +2,8 @@
 
 > *Engineering documentation for a 3D-printed-master, plaster-mold, cone-6-stoneware slip-cast ocarina family — from Helmholtz physics through the parametric design table to a V5 candidate build packet.*
 
+**Status:** L2 V5 build-packet candidate
+
 Current status: **V5 explorer/build-packet candidate, not build-ready**. The
 repo has a parametric design table, OpenSCAD starter, SVG drawing previews, and
 concept images, but the build-controlling values for chamber volume, voicing
@@ -104,7 +106,8 @@ ocarina/
 ├── cad/                            ← parametric body OpenSCAD starter
 ├── cnc/                            ← (deferred — slip-cast does not need CNC unless turning a wooden master)
 ├── drawings/                       ← SVG drawings: section, fipple detail, hole layout
-└── images/                         ← AI-generated concept renders (placeholders)
+├── images/                         ← AI-generated concept renders (placeholders)
+└── evolution/                      ← Stage 0 evolution-pipeline intake (manifest, design-intent, revisions)
 ```
 
 ## Status
